@@ -1,16 +1,17 @@
 # SUMMARY.md — Capsule Project Log
 
 ## Project Status Snapshot
-- **Current Phase:** 🛠️ Debugging Price API v3 Integration
-- **Next Milestone:** 🕒 Session Timer & Manual Sweep (Day 3)
-- **Remaining Days:** 4
+- **Current Phase:** 🕒 Phase 3: Session Timer & Manual Sweep
+- **Next Milestone:** ⚖️ Vault Limit Orders (Day 4)
+- **Remaining Days:** 3
 
 ## Branch Log
 | Branch | Status | Summary |
 |---|---|---|
 | `main` | 🛡️ Protected | Production-ready code |
 | `feature/price-api-integration` | ✅ Merged | Implementing Jupiter Price API fetching |
-| `feature/session-wallet-funding` | ⏳ Pending Review | Implementing session wallet generation and Swap V2 funding |
+| `feature/session-wallet-funding` | ✅ Merged | Implementing session wallet generation and Swap V2 funding |
+| `feature/session-timer-sweep` | 🔄 In Progress | Implementing session timer and manual sweep logic |
 
 ## Commit Log — `main`
 - `chore(init): bootstrap Next.js project with TypeScript and Tailwind`
@@ -34,3 +35,6 @@
 - `feat(swap): implement Jupiter Swap V2 transaction generation`
 - `feat(session): implement SessionProvider for lifecycle management`
 - `feat(ui): implement session dashboard and wallet connection`
+
+## Commit Log — `feature/session-timer-sweep`
+- `docs(summary): open branch feature/session-timer-sweep`
