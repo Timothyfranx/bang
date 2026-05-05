@@ -1,6 +1,6 @@
 import { JupiterPriceResponse, PriceData } from '@/types/jupiter';
 
-const JUPITER_PRICE_API_V2 = 'https://api.jup.ag/price/v2';
+const JUPITER_PRICE_API_V3 = 'https://api.jup.ag/price/v3/price';
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
 
 export async function fetchSolPrice(): Promise<PriceData> {
@@ -10,7 +10,7 @@ export async function fetchSolPrice(): Promise<PriceData> {
   }
 
   try {
-    const response = await fetch(`${JUPITER_PRICE_API_V2}?ids=${SOL_MINT}`, {
+    const response = await fetch(`${JUPITER_PRICE_API_V3}?ids=${SOL_MINT}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

@@ -2,9 +2,18 @@
 
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useSession } from '@/components/providers/SessionProvider';
+import { useEffect, useState } from 'react';
 
 export function Navbar() {
   const { isActive, budget } = useSession();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <nav className="border-b border-white/[0.08] bg-[#0A0A0F]/80 backdrop-blur-md sticky top-0 z-50">
@@ -26,7 +35,9 @@ export function Navbar() {
                 </span>
               </div>
             )}
-            <WalletMultiButton className="!bg-[#D4A843] !text-black !font-semibold !rounded-full !px-6 !h-10 !text-sm hover:!bg-[#C49833] transition-colors" />
+            {mounted && (
+              <WalletMultiButton className="!bg-[#D4A843] !text-black !font-semibold !rounded-full !px-6 !h-10 !text-sm hover:!bg-[#C49833] transition-colors" />
+            )}
           </div>
         </div>
       </div>
