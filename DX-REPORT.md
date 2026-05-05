@@ -6,7 +6,10 @@
 - What was clear / what was confusing: TBD
 
 ### Swap V2
-- TBD
+- Integrated Swap V2 (/quote and /swap) for session funding.
+- **Finding:** The `/swap` endpoint in V6 is incredibly powerful for programmatic funding. Using `destinationWallet` allowed us to fund the session wallet directly from the vault in a single transaction generated on the server.
+- **Finding:** Versioned Transactions are mandatory for Jupiter V6. Handled via `@solana/web3.js` `VersionedTransaction`.
+- **Finding:** To keep the API key secret, the quote and swap transaction generation *must* happen server-side (Next.js API routes). Client only signs and sends.
 
 ### Price API
 - Initial integration with Price API v2 completed.
