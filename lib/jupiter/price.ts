@@ -1,6 +1,6 @@
-import { JupiterPriceResponse, PriceData } from '@/types/jupiter';
+import { JupiterPriceV3Response, PriceData } from '@/types/jupiter';
 
-const JUPITER_PRICE_API_V3 = 'https://api.jup.ag/price/v3/price';
+const JUPITER_PRICE_API_V3 = 'https://api.jup.ag/price/v3';
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
 
 export async function fetchSolPrice(): Promise<PriceData> {
@@ -14,7 +14,7 @@ export async function fetchSolPrice(): Promise<PriceData> {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'x-api-key': apiKey
       },
       // Caching rule: 10 seconds minimum
       next: { revalidate: 10 } 
@@ -36,14 +36,16 @@ export async function fetchSolPrice(): Promise<PriceData> {
       throw new Error('Jupiter Price API returned an empty response');
     }
 
-    let result: JupiterPriceResponse;
+    let result: any;
     try {
       result = JSON.parse(text);
     } catch {
       throw new Error('Failed to parse Jupiter Price API response as JSON');
     }
 
-    const solData = result.data[SOL_MINT];
+    // Jupiter V3 usually has data field, but let's handle both
+    const data = result.data || result;
+    const solData = data[SOL_MINT];
 
     if (!solData) {
       throw new Error('SOL price data not found in Jupiter response');

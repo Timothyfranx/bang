@@ -1,7 +1,7 @@
 # SUMMARY.md — Capsule Project Log
 
 ## Project Status Snapshot
-- **Current Phase:** ✅ Phase 2: Session Wallet & Funding (Completed)
+- **Current Phase:** 🛠️ Debugging Price API v3 Integration
 - **Next Milestone:** 🕒 Session Timer & Manual Sweep (Day 3)
 - **Remaining Days:** 4
 

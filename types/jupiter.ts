@@ -1,12 +1,9 @@
-export interface JupiterPriceResponse {
-  data: {
-    [key: string]: {
-      id: string;
-      type: string;
-      price: string;
-    }
+export interface JupiterPriceV3Response {
+  [key: string]: {
+    id: string;
+    type: string;
+    price: string;
   };
-  timeTaken: number;
 }
 
 export interface PriceData {
