@@ -24,3 +24,4 @@
 - `feat(ui): implement Badge component`
 - `feat(page): display live SOL price on landing page`
 - `docs(dx-report): log Price API findings`
+- `fix(price): proxy Jupiter Price API through internal route to fix CORS`
