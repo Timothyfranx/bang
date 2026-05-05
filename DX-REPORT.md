@@ -9,7 +9,10 @@
 - TBD
 
 ### Price API
-- TBD
+- Initial integration with Price API v2 completed.
+- SOL price fetched successfully using mint `So11111111111111111111111111111111111111112`.
+- Response structure is clean and easy to parse.
+- Revalidation set to 10 seconds to respect rate limits while maintaining freshness.
 
 ### Tokens API
 - TBD
