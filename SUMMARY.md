@@ -9,7 +9,8 @@
 | Branch | Status | Summary |
 |---|---|---|
 | `main` | 🛡️ Protected | Production-ready code |
-| `feature/price-api-integration` | ⏳ Pending Review | Implementing Jupiter Price API fetching |
+| `feature/price-api-integration` | ✅ Merged | Implementing Jupiter Price API fetching |
+| `feature/session-wallet-funding` | 🔄 In Progress | Implementing session wallet generation and Swap V2 funding |
 
 ## Commit Log — `main`
 - `chore(init): bootstrap Next.js project with TypeScript and Tailwind`
@@ -25,3 +26,6 @@
 - `feat(page): display live SOL price on landing page`
 - `docs(dx-report): log Price API findings`
 - `fix(price): proxy Jupiter Price API through internal route to fix CORS`
+
+## Commit Log — `feature/session-wallet-funding`
+- `docs(summary): open branch feature/session-wallet-funding`
