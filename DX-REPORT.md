@@ -23,7 +23,11 @@
 - TBD
 
 ### Trigger API
-- TBD
+- Integrated Jupiter Trigger API for Vault-direct limit orders.
+- **Finding:** Authentication for Trigger API requires a three-step handshake: Request Challenge -> Sign Message -> Verify Signature -> Receive JWT.
+- **Observation:** This flow is highly secure but adds several round-trips for the client. Standardizing this with a helper library or unified wallet-auth endpoint would be helpful.
+- **Finding:** The `triggerPrice` and `triggerCondition` fields are intuitive, but the `inAmount` must be in native units (lamports for SOL).
+- **Finding:** API domain consistency: `quote-api.jup.ag` was failing with ENOTFOUND; switching all calls to the unified `api.jup.ag` domain resolved this.
 
 ### AI Stack
 - Agent Skills: TBD
