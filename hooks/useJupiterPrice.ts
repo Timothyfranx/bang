@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchSolPrice } from '@/lib/jupiter/price';
 import { PriceData } from '@/types/jupiter';
 
 export function useJupiterPrice() {
@@ -13,7 +12,11 @@ export function useJupiterPrice() {
     async function getPrice() {
       try {
         setLoading(true);
-        const data = await fetchSolPrice();
+        const response = await fetch('/api/price');
+        if (!response.ok) {
+          throw new Error('Failed to fetch price from internal API');
+        }
+        const data = await response.json();
         setPriceData(data);
         setError(null);
       } catch (err) {

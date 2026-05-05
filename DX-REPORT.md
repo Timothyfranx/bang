@@ -11,6 +11,8 @@
 ### Price API
 - Initial integration with Price API v2 completed.
 - SOL price fetched successfully using mint `So11111111111111111111111111111111111111112`.
+- **Finding:** Client-side fetching directly from `api.jup.ag` results in a `NetworkError` (CORS).
+- **Solution:** Implemented a Next.js Route Handler (`/api/price`) to proxy requests from the server. This also aligns with security mandates for API key protection.
 - Response structure is clean and easy to parse.
 - Revalidation set to 10 seconds to respect rate limits while maintaining freshness.
 
