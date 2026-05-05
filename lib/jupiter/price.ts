@@ -43,14 +43,16 @@ export async function fetchSolPrice(): Promise<PriceData> {
       throw new Error('Failed to parse Jupiter Price API response as JSON');
     }
 
-    const data = (result.data || result) as Record<string, { id?: string; price?: string | number }>;
+    const data = (result.data || result) as Record<string, { id?: string; price?: string | number; usdPrice?: string | number }>;
     const solData = data[SOL_MINT];
 
-    if (!solData || solData.price === undefined || solData.price === null) {
+    const rawPrice = solData?.usdPrice ?? solData?.price;
+
+    if (!solData || rawPrice === undefined || rawPrice === null) {
       throw new Error('SOL price data not found or invalid in Jupiter response');
     }
 
-    const price = Number(solData.price);
+    const price = Number(rawPrice);
     if (isNaN(price)) {
       throw new Error('Jupiter Price API returned an invalid price value');
     }
