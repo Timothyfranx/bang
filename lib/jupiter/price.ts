@@ -9,6 +9,7 @@ export async function fetchSolPrice(): Promise<PriceData> {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
+        'Authorization': `Bearer ${process.env.JUPITER_API_KEY}`
       },
       // Caching rule: 10 seconds minimum
       next: { revalidate: 10 } 
