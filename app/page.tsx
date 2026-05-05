@@ -36,7 +36,7 @@ export default function Home() {
                 <div className="h-10 w-32 bg-white/5 animate-pulse rounded-lg" />
               ) : (
                 <div className="text-4xl font-bold text-[#D4A843]">
-                  ${priceData?.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  ${priceData?.price?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || '0.00'}
                 </div>
               )}
               <Badge variant="success">LIVE via Jupiter</Badge>

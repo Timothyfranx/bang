@@ -1,4 +1,4 @@
-import { JupiterPriceV3Response, PriceData } from '@/types/jupiter';
+import { PriceData } from '@/types/jupiter';
 
 const JUPITER_PRICE_API_V3 = 'https://api.jup.ag/price/v3';
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
@@ -36,24 +36,28 @@ export async function fetchSolPrice(): Promise<PriceData> {
       throw new Error('Jupiter Price API returned an empty response');
     }
 
-    let result: any;
+    let result: Record<string, unknown>;
     try {
       result = JSON.parse(text);
     } catch {
       throw new Error('Failed to parse Jupiter Price API response as JSON');
     }
 
-    // Jupiter V3 usually has data field, but let's handle both
-    const data = result.data || result;
+    const data = (result.data || result) as Record<string, { id?: string; price?: string | number }>;
     const solData = data[SOL_MINT];
 
-    if (!solData) {
-      throw new Error('SOL price data not found in Jupiter response');
+    if (!solData || solData.price === undefined || solData.price === null) {
+      throw new Error('SOL price data not found or invalid in Jupiter response');
+    }
+
+    const price = Number(solData.price);
+    if (isNaN(price)) {
+      throw new Error('Jupiter Price API returned an invalid price value');
     }
 
     return {
-      id: solData.id,
-      price: parseFloat(solData.price)
+      id: solData.id || SOL_MINT,
+      price: price
     };
   } catch (err) {
     console.error('[Jupiter Price API]', err);
