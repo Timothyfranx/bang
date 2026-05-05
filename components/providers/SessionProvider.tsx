@@ -49,32 +49,34 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
       // 1. Generate session keypair
       const keypair = generateSessionKeypair();
       
-      // 2. Calculate SOL amount from USD budget (Simplified for now, will use Price API)
-      // For Day 2, we just want the flow working.
+      // 2. Calculate SOL amount from USD budget
       const solPriceResponse = await fetch('/api/price');
+      if (!solPriceResponse.ok) {
+        throw new Error('Failed to fetch current SOL price');
+      }
       const solPriceData = await solPriceResponse.json();
       const solAmount = budgetInUsd / solPriceData.price;
       const lamports = Math.floor(solAmount * 1_000_000_000);
 
       // 3. Get Swap/Funding transaction from API
-      // In a real app, we might swap USDC -> SOL to session wallet.
-      // For this demo, let's assume we're funding SOL directly.
-      // Jupiter Quote API can be used to "swap" SOL to SOL to handle the transfer via Jupiter.
       const SOL_MINT = 'So11111111111111111111111111111111111111112';
       const response = await fetch('/api/swap', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           inputMint: SOL_MINT,
-          outputMint: SOL_MINT, // Transfer SOL via Jupiter
+          outputMint: SOL_MINT,
           amount: lamports,
           userPublicKey: publicKey.toBase58(),
-          destinationWallet: keypair.publicKey.toBase58() // Swap API doesn't support destination directly easily in basic v6, might need /swap param
+          destinationWallet: keypair.publicKey.toBase58()
         })
       });
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Funding failed with status ${response.status}`);
+      }
       const data = await response.json();
-      if (data.error) throw new Error(data.error);
 
       // 4. Sign and send transaction
       const swapTransactionBuf = Buffer.from(data.swapResponse.swapTransaction, 'base64');

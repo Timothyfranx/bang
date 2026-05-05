@@ -4,23 +4,45 @@ const JUPITER_PRICE_API_V2 = 'https://api.jup.ag/price/v2';
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
 
 export async function fetchSolPrice(): Promise<PriceData> {
+  const apiKey = process.env.JUPITER_API_KEY;
+  if (!apiKey) {
+    throw new Error('JUPITER_API_KEY is not defined in environment variables');
+  }
+
   try {
     const response = await fetch(`${JUPITER_PRICE_API_V2}?ids=${SOL_MINT}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Authorization': `Bearer ${process.env.JUPITER_API_KEY}`
+        'Authorization': `Bearer ${apiKey}`
       },
       // Caching rule: 10 seconds minimum
       next: { revalidate: 10 } 
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`Jupiter Price API error ${response.status}: ${error.message || response.statusText}`);
+      let errorDetail = response.statusText;
+      try {
+        const error = await response.json();
+        errorDetail = error.message || errorDetail;
+      } catch {
+        // Fallback if response is not JSON
+      }
+      throw new Error(`Jupiter Price API error ${response.status}: ${errorDetail}`);
     }
 
-    const result: JupiterPriceResponse = await response.json();
+    const text = await response.text();
+    if (!text) {
+      throw new Error('Jupiter Price API returned an empty response');
+    }
+
+    let result: JupiterPriceResponse;
+    try {
+      result = JSON.parse(text);
+    } catch {
+      throw new Error('Failed to parse Jupiter Price API response as JSON');
+    }
+
     const solData = result.data[SOL_MINT];
 
     if (!solData) {
