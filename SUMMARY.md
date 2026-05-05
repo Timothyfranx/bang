@@ -9,6 +9,7 @@
 | Branch | Status | Summary |
 |---|---|---|
 | `main` | 🛡️ Protected | Production-ready code |
+| `feature/price-api-integration` | 🔄 In Progress | Implementing Jupiter Price API fetching |
 
 ## Commit Log — `main`
 - `chore(init): bootstrap Next.js project with TypeScript and Tailwind`
