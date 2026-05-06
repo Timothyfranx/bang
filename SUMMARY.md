@@ -13,7 +13,7 @@
 | `feature/session-wallet-funding` | ✅ Merged | Implementing session wallet generation and Swap V2 funding |
 | `feature/session-timer-sweep` | ✅ Merged | Implementing session timer and manual sweep logic |
 | `feature/vault-limit-orders` | ✅ Merged | Implementing Jupiter Trigger API for vault limit orders |
-| `feature/token-safety-check` | 🔄 In Progress | Refining Jupiter Tokens API integration and safety UX |
+| `feature/token-safety-check` | ⏳ Pending Review | Refining Jupiter Tokens API integration and safety UX |
 
 ## Commit Log — `main`
 - `chore(init): bootstrap Next.js project with TypeScript and Tailwind`
@@ -22,3 +22,6 @@
 
 ## Commit Log — `feature/token-safety-check`
 - `docs(summary): open branch feature/token-safety-check`
+- `feat(tokens): implement organic score check for token safety`
+- `feat(ui): enhance session card with risk warnings and abandonment policy`
+- `docs(dx-report): log Tokens API findings`
