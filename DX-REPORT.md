@@ -20,7 +20,10 @@
 - Revalidation set to 10 seconds to respect rate limits while maintaining freshness.
 
 ### Tokens API
-- TBD
+- Used Jupiter Tokens API v2 for asset scanning and safety verification.
+- **Finding:** The `organic_score` field is a high-signal metric for risk management. Using a threshold of 70 allows for a good balance between safety and utility.
+- **Finding:** The API response uses snake_case (`organic_score`) for the score but camelCase for other metadata like `logoURI`. Developers need to be careful with TypeScript mapping.
+- **Finding:** The `/search` endpoint allows for comma-separated mints, making bulk scanning of the session wallet efficient.
 
 ### Trigger API
 - Integrated Jupiter Trigger API for Vault-direct limit orders.

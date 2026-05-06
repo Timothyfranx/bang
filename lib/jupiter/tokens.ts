@@ -12,7 +12,7 @@ export interface TokenMetadata {
   mint_authority?: string | null;
   permanent_delegate?: string | null;
   minted_at?: string | null;
-  organicScore?: number;
+  organic_score?: number;
 }
 
 export async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]> {

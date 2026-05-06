@@ -42,7 +42,7 @@ export async function identifySweepAssets(
 
   const splAssets = splBalances.map(balance => {
     const metadata = metadataList.find(m => m.mint === balance.mint);
-    const score = metadata?.organicScore || 0;
+    const score = metadata?.organic_score || 0;
     
     return {
       mint: balance.mint,

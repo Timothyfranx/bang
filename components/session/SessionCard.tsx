@@ -63,34 +63,54 @@ export function SessionCard() {
 
         {sweepAssets.length > 0 && (
           <div className="space-y-3">
-            <div className="text-xs font-semibold uppercase tracking-wider text-[#A1A1AA]">
-              Assets to Sweep
+            <div className="flex items-center justify-between">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#A1A1AA]">
+                Assets Found
+              </div>
+              <div className="text-[10px] text-[#A1A1AA]">
+                Auto-scanning active
+              </div>
             </div>
             <div className="space-y-2">
               {sweepAssets.map((asset) => (
-                <div key={asset.mint} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 text-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold">{asset.symbol}</span>
-                    <span className="text-white/40">{asset.uiAmount.toFixed(4)}</span>
+                <div 
+                  key={asset.mint} 
+                  className={`flex flex-col gap-2 p-3 bg-white/5 rounded-xl border ${
+                    asset.isSafe ? 'border-white/5' : 'border-red-500/20 bg-red-500/5'
+                  } transition-colors`}
+                >
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-white">{asset.symbol}</span>
+                      <span className="text-white/40">{asset.uiAmount.toFixed(4)}</span>
+                    </div>
+                    <Badge variant={asset.isSafe ? 'success' : 'error'}>
+                      {asset.isSafe ? `Score: ${asset.organicScore}` : 'SUSPICIOUS'}
+                    </Badge>
                   </div>
-                  <Badge variant={asset.isSafe ? 'success' : 'error'}>
-                    {asset.isSafe ? `Score: ${asset.organicScore}` : 'SUSPICIOUS'}
-                  </Badge>
+                  {!asset.isSafe && (
+                    <div className="text-[10px] text-red-400 flex items-center gap-1">
+                      <span>⚠️ Low organic score. This token will be abandoned.</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        <button
-          onClick={endSession}
-          className="w-full bg-[#D4A843] text-black font-bold py-4 rounded-xl hover:bg-[#C49833] transition-all"
-        >
-          End Session & Sweep Safe Assets
-        </button>
+        <div className="pt-2">
+          <button
+            onClick={endSession}
+            className="w-full bg-[#D4A843] text-black font-bold py-4 rounded-xl hover:bg-[#C49833] transition-all shadow-lg shadow-[#D4A843]/10"
+          >
+            End Session & Sweep Safe Assets
+          </button>
+        </div>
         
-        <p className="text-[10px] text-center text-[#A1A1AA] px-4 leading-relaxed">
-          Suspicious tokens (Organic Score &lt; 70) will be abandoned to protect your vault from potential drainers.
+        <p className="text-[10px] text-center text-[#A1A1AA] px-4 leading-relaxed opacity-60 italic">
+          Capsule protects your vault by only recovering tokens with an organic score ≥ 70. 
+          Suspicious assets remain in the isolation wallet and are eventually cleared.
         </p>
       </div>
     </div>
