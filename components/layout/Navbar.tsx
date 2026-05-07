@@ -26,12 +26,11 @@ export function Navbar() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 bg-[#D4A843] rounded-lg flex items-center justify-center font-bold text-black group-hover:rotate-12 transition-transform">
-                C
+              <div className="w-8 h-4 rounded-full border-1.5 border-[#D4A843] flex items-center p-0.5 overflow-hidden">
+                <div className="w-3 h-full bg-[#D4A843] rounded-full" />
               </div>
-              <span className="text-xl font-bold tracking-tight">Capsule</span>
+              <span className="text-xl font-bold tracking-tight lowercase">capsule</span>
             </Link>
-
             <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link

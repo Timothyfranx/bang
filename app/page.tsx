@@ -5,6 +5,8 @@ import { useSession } from '@/components/providers/SessionProvider';
 import { Navbar } from '@/components/layout/Navbar';
 import { StartSession } from '@/components/session/StartSession';
 import { SessionCard } from '@/components/session/SessionCard';
+import { GhostPanel } from '@/components/ghost/GhostPanel';
+import { VaultBalance } from '@/components/vault/VaultBalance';
 import { Badge } from '@/components/shared/Badge';
 import { useJupiterPrice } from '@/hooks/useJupiterPrice';
 
@@ -17,9 +19,9 @@ export default function Home() {
     <div className="min-h-screen bg-[#0A0A0F] text-white">
       <Navbar />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col items-center justify-center">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {!connected ? (
-          <div className="max-w-2xl w-full text-center py-20">
+          <div className="flex flex-col items-center justify-center text-center py-20">
             <h1 className="text-6xl font-black mb-6 tracking-tighter bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
               SECURE YOUR INTERACTION.
             </h1>
@@ -43,23 +45,38 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="w-full flex flex-col items-center gap-8 py-10">
-            {isActive ? (
-              <SessionCard />
-            ) : (
-              <StartSession />
-            )}
-            
-            <div className="max-w-md w-full grid grid-cols-2 gap-4">
-              <div className="bg-[#111118] border border-white/[0.08] rounded-2xl p-6 flex flex-col items-center text-center">
-                <div className="text-[#D4A843] mb-2">🛡️</div>
-                <div className="text-xs font-bold uppercase tracking-widest text-[#A1A1AA] mb-1">Isolation</div>
-                <div className="text-sm font-medium">L3 Security</div>
-              </div>
-              <div className="bg-[#111118] border border-white/[0.08] rounded-2xl p-6 flex flex-col items-center text-center">
-                <div className="text-[#D4A843] mb-2">⚡</div>
-                <div className="text-xs font-bold uppercase tracking-widest text-[#A1A1AA] mb-1">Execution</div>
-                <div className="text-sm font-medium">Jupiter Swap V2</div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column: Session and Ghost Mode */}
+            <div className="lg:col-span-2 space-y-8">
+              {isActive ? (
+                <SessionCard />
+              ) : (
+                <StartSession />
+              )}
+              
+              <GhostPanel />
+            </div>
+
+            {/* Right Column: Vault and Stats */}
+            <div className="space-y-8">
+              <VaultBalance />
+              
+              <div className="bg-[#111118] border border-white/[0.08] rounded-2xl p-6">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-[#A1A1AA] mb-4">Isolation Stats</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-[#8B8B9B]">Security Level</span>
+                    <span className="text-sm font-bold text-[#D4A843]">L3 / Ghost</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-[#8B8B9B]">Wallet Rotation</span>
+                    <span className="text-sm font-bold">Session Active</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-[#8B8B9B]">Jupiter Routing</span>
+                    <span className="text-sm font-bold text-green-400">V6 Optimized</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
