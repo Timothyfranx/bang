@@ -6,6 +6,7 @@ import { useSession } from '@/components/providers/SessionProvider';
 import { pollWalletTransactions } from '@/lib/solana/watcher';
 import { assessTradeRisk } from '@/lib/utils/risk';
 import { getQuote } from '@/lib/jupiter/swap';
+import { checkMultiGhostConsensus } from '@/lib/utils/multiGhost';
 import { GhostSignal, WhaleTrade } from '@/types/ghost';
 import toast from 'react-hot-toast';
 
@@ -16,9 +17,9 @@ export function useGhost() {
   const { isActive: isSessionActive } = useSession();
   
   const [isMonitoring, setIsMonitoring] = useState(false);
-  const [whaleAddress, setWhaleAddress] = useState('');
+  const [whaleAddresses, setWhaleAddresses] = useState<string[]>([]);
   const [signals, setSignals] = useState<GhostSignal[]>([]);
-  const [lastSignature, setLastSignature] = useState<string | null>(null);
+  const [lastSignatures, setLastSignatures] = useState<Record<string, string | null>>({});
   
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -26,7 +27,10 @@ export function useGhost() {
     // 1. Assess Risk
     const risk = await assessTradeRisk(trade);
     
-    // 2. Get Quote for mirror trade (using a small amount for the quote)
+    // 2. Check Multi-Ghost Consensus
+    const { isConsensus, confirmations } = checkMultiGhostConsensus(trade, whaleAddresses);
+
+    // 3. Get Quote for mirror trade (using a small amount for the quote)
     const amountInLamports = 100000000; // 0.1 SOL placeholder for quote check
     const jupiterQuote = await getQuote(trade.inputMint, trade.outputMint, amountInLamports);
     
@@ -34,47 +38,64 @@ export function useGhost() {
       trade,
       risk,
       jupiterQuote,
-      status: 'pending'
+      status: 'pending',
+      confirmations,
+      isConsensus
     };
     
-    setSignals(prev => [signal, ...prev].slice(0, 20));
+    setSignals(prev => {
+      // If we already have a signal for this token (consensus update), we might want to update it
+      // For now, we just add new signals or update existing ones in the feed
+      const existingIdx = prev.findIndex(s => s.trade.outputMint === trade.outputMint && s.status === 'pending');
+      
+      if (existingIdx !== -1 && isConsensus) {
+        const updated = [...prev];
+        updated[existingIdx] = { ...updated[existingIdx], isConsensus, confirmations };
+        return updated;
+      }
+      
+      return [signal, ...prev].slice(0, 20);
+    });
     
-    if (risk.level === 'safe') {
+    if (isConsensus) {
+      toast.success(`CONSENSUS: Multiple whales buying ${trade.outputSymbol}!`, {
+        icon: '🔥',
+        duration: 6000
+      });
+    } else if (risk.level === 'safe') {
       toast.success(`Ghost Mode: Safe trade detected for ${trade.outputSymbol}!`, {
         icon: '👻',
-        duration: 5000
-      });
-    } else if (risk.level === 'caution') {
-      toast('Ghost Mode: Caution trade detected.', {
-        icon: '⚠️',
-        duration: 5000
+        duration: 4000
       });
     }
-  }, []);
+  }, [whaleAddresses]);
 
   const poll = useCallback(async () => {
-    if (!whaleAddress || !isMonitoring) return;
+    if (whaleAddresses.length === 0 || !isMonitoring) return;
     
     try {
-      const newTrades = await pollWalletTransactions(
-        whaleAddress,
-        lastSignature,
-        connection.rpcEndpoint
-      );
-      
-      if (newTrades.length > 0) {
-        setLastSignature(newTrades[0].signature);
-        for (const trade of newTrades.reverse()) {
-          await processTrade(trade);
+      for (const address of whaleAddresses) {
+        const lastSig = lastSignatures[address] || null;
+        const newTrades = await pollWalletTransactions(
+          address,
+          lastSig,
+          connection.rpcEndpoint
+        );
+        
+        if (newTrades.length > 0) {
+          setLastSignatures(prev => ({ ...prev, [address]: newTrades[0].signature }));
+          for (const trade of newTrades.reverse()) {
+            await processTrade(trade);
+          }
         }
       }
     } catch (err) {
       console.error('Polling error:', err);
     }
-  }, [whaleAddress, isMonitoring, lastSignature, connection.rpcEndpoint, processTrade]);
+  }, [whaleAddresses, isMonitoring, lastSignatures, connection.rpcEndpoint, processTrade]);
 
   useEffect(() => {
-    if (isMonitoring && isSessionActive) {
+    if (isMonitoring && isSessionActive && whaleAddresses.length > 0) {
       pollingRef.current = setInterval(poll, POLLING_INTERVAL);
     } else {
       if (pollingRef.current) clearInterval(pollingRef.current);
@@ -83,25 +104,45 @@ export function useGhost() {
     return () => {
       if (pollingRef.current) clearInterval(pollingRef.current);
     };
-  }, [isMonitoring, isSessionActive, poll]);
+  }, [isMonitoring, isSessionActive, whaleAddresses, poll]);
 
   const toggleMonitoring = useCallback(() => {
-    if (!whaleAddress && !isMonitoring) {
-      toast.error('Please enter a whale address first');
+    if (whaleAddresses.length === 0 && !isMonitoring) {
+      toast.error('Please add at least one whale address');
       return;
     }
     setIsMonitoring(prev => !prev);
     if (!isMonitoring) {
-      toast.success(`Ghost Mode: Monitoring ${whaleAddress.slice(0, 4)}...`);
+      toast.success(`Ghost Mode: Monitoring ${whaleAddresses.length} whales...`);
     } else {
       toast('Ghost Mode: Monitoring stopped');
     }
-  }, [whaleAddress, isMonitoring]);
+  }, [whaleAddresses, isMonitoring]);
+
+  const addWhale = (address: string) => {
+    if (!address) return;
+    if (whaleAddresses.includes(address)) {
+      toast.error('Whale already added');
+      return;
+    }
+    if (whaleAddresses.length >= 3) {
+      toast.error('Maximum 3 whales for v1');
+      return;
+    }
+    setWhaleAddresses(prev => [...prev, address]);
+    toast.success('Whale added to target list');
+  };
+
+  const removeWhale = (address: string) => {
+    setWhaleAddresses(prev => prev.filter(a => a !== address));
+    if (whaleAddresses.length === 1) setIsMonitoring(false);
+  };
 
   return {
     isMonitoring,
-    whaleAddress,
-    setWhaleAddress,
+    whaleAddresses,
+    addWhale,
+    removeWhale,
     signals,
     toggleMonitoring,
     isSessionActive

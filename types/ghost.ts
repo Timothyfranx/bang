@@ -28,6 +28,8 @@ export interface GhostSignal {
   risk: RiskAssessment;
   jupiterQuote: QuoteResponse;
   status: 'pending' | 'mirrored' | 'skipped' | 'expired';
+  confirmations?: string[]; // Array of whale addresses who bought this token
+  isConsensus?: boolean;
   mirrorTxHash?: string;
   entryPriceDiff?: number;    // your price vs whale price
 }
