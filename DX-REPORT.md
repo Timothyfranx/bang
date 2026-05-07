@@ -42,6 +42,7 @@
 - Implemented real-time wallet polling using `getSignaturesForAddress`.
 - **Finding:** Polling is more reliable for demos than websockets, but parsing `ParsedTransactionWithMeta` for Jupiter swaps is complex due to the multi-level route plans.
 - **Finding:** Used token balance changes (`preTokenBalances` vs `postTokenBalances`) as a proxy for swap detection, which proved significantly more robust than instruction parsing.
+- **Finding (Multi-Ghost):** Consensus logic (e.g., 2-out-of-3 whales) significantly reduces "noise" from single-whale outliers or experimental trades.
 - **Observation:** Real-time pricing via Jupiter during signal enrichment adds latency. Caching metadata and prices is critical for the "Ghost" feel.
 - TBD
 

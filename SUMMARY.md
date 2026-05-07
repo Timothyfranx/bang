@@ -26,3 +26,5 @@
 - `feat(ghost): implement whale watcher and Ghost Mode core logic`
 - `feat(ui): implement GhostPanel, TradeCard, and GhostToggle`
 - `style(design): update design system, logo, and colors as per DESIGN.md`
+- `feat(ghost): implement multi-ghost consensus and target list`
+- `feat(ui): update GhostPanel and TradeCard for multi-whale support`
