@@ -32,59 +32,59 @@ export function LimitOrderForm() {
   };
 
   return (
-    <div className="bg-[#111118] border border-white/[0.08] rounded-2xl p-8 max-w-md w-full">
-      <h2 className="text-2xl font-bold mb-2">Vault Limit Order</h2>
-      <p className="text-[#A1A1AA] mb-8 text-sm">
-        Place a limit order directly from your vault. Orders are executed via Jupiter Trigger.
+    <div className="bg-[#111118] border border-white/[0.08] rounded-[2rem] p-10 max-w-md w-full">
+      <h2 className="text-2xl font-black mb-2 uppercase tracking-tight">Limit Order</h2>
+      <p className="text-[10px] font-bold text-[#555566] uppercase tracking-widest mb-10">
+        Direct Vault Execution / Trigger V2
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#A1A1AA] mb-2">
-            Sell amount (SOL)
+          <label className="block text-[10px] font-black uppercase tracking-widest text-[#8B8B9B] mb-4">
+            Sell Amount (SOL)
           </label>
           <input
             type="number"
             value={inAmount}
             onChange={(e) => setInAmount(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 font-bold focus:outline-none focus:border-[#D4A843]/50 transition-colors"
+            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-xl font-black focus:outline-none focus:border-[#D4A843]/50 transition-all text-white"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#A1A1AA] mb-2">
+          <label className="block text-[10px] font-black uppercase tracking-widest text-[#8B8B9B] mb-4">
             Trigger Price (USDC)
           </label>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 font-semibold">$</span>
+            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 font-black text-xl">$</span>
             <input
               type="number"
               value={triggerPrice}
               onChange={(e) => setTriggerPrice(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-8 pr-4 font-bold focus:outline-none focus:border-[#D4A843]/50 transition-colors"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-xl font-black focus:outline-none focus:border-[#D4A843]/50 transition-all text-white"
               placeholder={priceData?.price.toFixed(2) || '0.00'}
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#A1A1AA] mb-2">
-            Condition
+          <label className="block text-[10px] font-black uppercase tracking-widest text-[#8B8B9B] mb-4">
+            Execution Condition
           </label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setTriggerCondition('below')}
-              className={`py-3 rounded-xl font-bold text-sm transition-all ${condition === 'below' ? 'bg-[#D4A843] text-black' : 'bg-white/5 text-[#A1A1AA]'}`}
+              className={`py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${condition === 'below' ? 'bg-[#D4A843] text-black shadow-lg shadow-[#D4A843]/10' : 'bg-white/5 text-[#555566] hover:bg-white/10'}`}
             >
-              Price Falls Below
+              Falls Below
             </button>
             <button
               type="button"
               onClick={() => setTriggerCondition('above')}
-              className={`py-3 rounded-xl font-bold text-sm transition-all ${condition === 'above' ? 'bg-[#D4A843] text-black' : 'bg-white/5 text-[#A1A1AA]'}`}
+              className={`py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${condition === 'above' ? 'bg-[#D4A843] text-black shadow-lg shadow-[#D4A843]/10' : 'bg-white/5 text-[#555566] hover:bg-white/10'}`}
             >
-              Price Rises Above
+              Rises Above
             </button>
           </div>
         </div>
@@ -92,15 +92,15 @@ export function LimitOrderForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#D4A843] text-black font-bold py-4 rounded-xl hover:bg-[#C49833] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+          className="w-full bg-[#D4A843] text-black font-black py-5 rounded-2xl hover:bg-[#C49833] disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] shadow-xl shadow-[#D4A843]/10"
         >
           {loading ? (
             <>
-              <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
-              Processing...
+              <div className="w-5 h-5 border-4 border-black/20 border-t-black rounded-full animate-spin" />
+              Broadcasting...
             </>
           ) : (
-            'Place Limit Order'
+            'Place Order'
           )}
         </button>
       </form>

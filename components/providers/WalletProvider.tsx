@@ -5,15 +5,14 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 export const SolanaWalletProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
-    // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
-    const network = WalletAdapterNetwork.Devnet;
-
-    // You can also provide a custom RPC endpoint.
-    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+    // Use a more stable public RPC if possible, or fallback
+    const endpoint = useMemo(() => {
+        // You can add logic here to use a custom RPC from .env if available
+        return "https://api.mainnet-beta.solana.com";
+    }, []);
 
     const wallets = useMemo(
         () => [
@@ -22,9 +21,13 @@ export const SolanaWalletProvider: FC<{ children: React.ReactNode }> = ({ childr
         []
     );
 
+    const onError = (error: Error) => {
+        console.error('Wallet Error:', error);
+    };
+
     return (
         <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
+            <WalletProvider wallets={wallets} autoConnect onError={onError}>
                 <WalletModalProvider>
                     {children}
                 </WalletModalProvider>
