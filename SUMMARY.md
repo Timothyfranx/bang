@@ -21,10 +21,8 @@
 - `docs: add GEMINI, SUMMARY, DX-REPORT, README scaffolds`
 - `chore(structure): scaffold project directory structure`
 
-## Commit Log — `feature/ghost-mode-core`
-- `docs(summary): open branch feature/ghost-mode-core`
-- `feat(ghost): implement whale watcher and Ghost Mode core logic`
-- `feat(ui): implement GhostPanel, TradeCard, and GhostToggle`
-- `style(design): update design system, logo, and colors as per DESIGN.md`
-- `feat(ghost): implement multi-ghost consensus and target list`
-- `feat(ui): update GhostPanel and TradeCard for multi-whale support`
+## Commit Log — `fix/session-funding-json-error`
+- `fix(jupiter): switch to x-api-key header for V6 APIs`
+- `fix(json): harden all fetch calls to handle empty or malformed JSON responses`
+- `fix(session): resolve "Unexpected end of JSON input" by preventing redundant json() calls`
+- `fix(trigger): harden auth flow and order placement JSON parsing`

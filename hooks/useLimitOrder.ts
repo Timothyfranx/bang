@@ -29,8 +29,9 @@ export function useLimitOrder() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletPublicKey: publicKey.toBase58() })
       });
-      const { challenge, error: challengeError } = await challengeRes.json();
-      if (challengeError) throw new Error(challengeError);
+      const challengeData = await challengeRes.json().catch(() => ({}));
+      if (!challengeRes.ok || challengeData.error) throw new Error(challengeData.error || 'Failed to get challenge');
+      const { challenge } = challengeData;
 
       // 2. Sign Challenge
       const message = new TextEncoder().encode(challenge);
@@ -46,8 +47,9 @@ export function useLimitOrder() {
           signature: signatureBase58
         })
       });
-      const { accessToken, error: verifyError } = await verifyRes.json();
-      if (verifyError) throw new Error(verifyError);
+      const verifyData = await verifyRes.json().catch(() => ({}));
+      if (!verifyRes.ok || verifyData.error) throw new Error(verifyData.error || 'Failed to verify signature');
+      const { accessToken } = verifyData;
 
       // 4. Place Order
       const orderRes = await fetch('/api/trigger/order', {
@@ -62,8 +64,8 @@ export function useLimitOrder() {
           triggerCondition
         })
       });
-      const orderData = await orderRes.json();
-      if (orderData.error) throw new Error(orderData.error);
+      const orderData = await orderRes.json().catch(() => ({}));
+      if (!orderRes.ok || orderData.error) throw new Error(orderData.error || 'Failed to place order');
 
       toast.success('Limit order placed successfully!');
       return orderData;

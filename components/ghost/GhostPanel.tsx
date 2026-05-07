@@ -74,12 +74,16 @@ export const GhostPanel: React.FC = () => {
         })
       });
 
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error || 'Failed to get swap transaction');
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || data.error) {
+        throw new Error(data.error || 'Failed to get swap transaction');
       }
 
-      const data = await response.json();
+      if (!data.swapResponse) {
+        throw new Error('Invalid response from mirror API');
+      }
+
       const swapTransactionBuf = Buffer.from(data.swapResponse.swapTransaction, 'base64');
       const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
       

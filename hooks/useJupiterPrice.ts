@@ -13,10 +13,12 @@ export function useJupiterPrice() {
       try {
         setLoading(true);
         const response = await fetch('/api/price');
-        if (!response.ok) {
-          throw new Error('Failed to fetch price from internal API');
+        const data = await response.json().catch(() => ({}));
+        
+        if (!response.ok || data.error) {
+          throw new Error(data.error || 'Failed to fetch price from internal API');
         }
-        const data = await response.json();
+        
         setPriceData(data);
         setError(null);
       } catch (err) {

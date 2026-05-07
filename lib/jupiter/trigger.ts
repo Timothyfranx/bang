@@ -22,8 +22,8 @@ export async function getTriggerChallenge(walletPublicKey: string): Promise<stri
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(`Jupiter Trigger Challenge error: ${error.message}`);
+    const error = await response.json().catch(() => ({ message: `Status ${response.status}` }));
+    throw new Error(`Jupiter Trigger Challenge error: ${error.message || 'Unknown error'}`);
   }
 
   const data = await response.json();
@@ -48,8 +48,8 @@ export async function verifyTriggerSignature(
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(`Jupiter Trigger Verify error: ${error.message}`);
+    const error = await response.json().catch(() => ({ message: `Status ${response.status}` }));
+    throw new Error(`Jupiter Trigger Verify error: ${error.message || 'Unknown error'}`);
   }
 
   const data = await response.json();
@@ -82,8 +82,8 @@ export async function createLimitOrder(
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(`Jupiter Trigger Order error: ${error.message}`);
+    const error = await response.json().catch(() => ({ message: `Status ${response.status}` }));
+    throw new Error(`Jupiter Trigger Order error: ${error.message || 'Unknown error'}`);
   }
 
   return await response.json();

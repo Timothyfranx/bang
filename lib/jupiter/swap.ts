@@ -51,13 +51,13 @@ export async function getQuote(
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Authorization': `Bearer ${process.env.JUPITER_API_KEY}`
+      'x-api-key': process.env.JUPITER_API_KEY || ''
     }
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(`Jupiter Quote API error ${response.status}: ${error.message}`);
+    const error = await response.json().catch(() => ({ message: `Status ${response.status}` }));
+    throw new Error(`Jupiter Quote API error ${response.status}: ${error.message || 'Unknown error'}`);
   }
 
   return await response.json();
@@ -73,7 +73,7 @@ export async function getSwapTransaction(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.JUPITER_API_KEY}`
+      'x-api-key': process.env.JUPITER_API_KEY || ''
     },
     body: JSON.stringify({
       quoteResponse,
@@ -86,8 +86,8 @@ export async function getSwapTransaction(
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(`Jupiter Swap API error ${response.status}: ${error.message}`);
+    const error = await response.json().catch(() => ({ message: `Status ${response.status}` }));
+    throw new Error(`Jupiter Swap API error ${response.status}: ${error.message || 'Unknown error'}`);
   }
 
   return await response.json();

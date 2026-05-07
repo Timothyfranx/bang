@@ -97,10 +97,12 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
       
       // 2. Calculate SOL amount from USD budget
       const solPriceResponse = await fetch('/api/price');
-      if (!solPriceResponse.ok) {
+      const solPriceData = await solPriceResponse.json().catch(() => ({}));
+      
+      if (!solPriceResponse.ok || !solPriceData.price) {
         throw new Error('Failed to fetch current SOL price');
       }
-      const solPriceData = await solPriceResponse.json();
+      
       const solAmount = budgetInUsd / solPriceData.price;
       const lamports = Math.floor(solAmount * 1_000_000_000);
 
@@ -118,11 +120,15 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         })
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Funding failed with status ${response.status}`);
+        throw new Error(data.error || `Funding failed with status ${response.status}`);
       }
-      const data = await response.json();
+
+      if (!data.swapResponse) {
+        throw new Error('Invalid response from funding API');
+      }
 
       // 4. Sign and send transaction
       const swapTransactionBuf = Buffer.from(data.swapResponse.swapTransaction, 'base64');
@@ -197,8 +203,14 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
               })
             });
 
-            const data = await response.json();
-            if (data.error) throw new Error(data.error);
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || data.error) {
+              throw new Error(data.error || `Sweep failed with status ${response.status}`);
+            }
+
+            if (!data.swapResponse) {
+              throw new Error('Invalid response from sweep API');
+            }
 
             const swapTransactionBuf = Buffer.from(data.swapResponse.swapTransaction, 'base64');
             const transaction = VersionedTransaction.deserialize(swapTransactionBuf);

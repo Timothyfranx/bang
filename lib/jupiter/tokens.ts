@@ -29,9 +29,10 @@ export async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
-    console.error('[Jupiter Tokens API]', error);
+    console.error('[Jupiter Tokens API Error]', error);
     return [];
   }
 
-  return await response.json();
+  const data = await response.json().catch(() => []);
+  return data;
 }
