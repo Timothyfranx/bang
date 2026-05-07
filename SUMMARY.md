@@ -23,3 +23,6 @@
 
 ## Commit Log — `feature/ghost-mode-core`
 - `docs(summary): open branch feature/ghost-mode-core`
+- `feat(ghost): implement whale watcher and Ghost Mode core logic`
+- `feat(ui): implement GhostPanel, TradeCard, and GhostToggle`
+- `style(design): update design system, logo, and colors as per DESIGN.md`

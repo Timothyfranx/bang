@@ -38,7 +38,11 @@
 - Docs MCP: TBD
 - llms.txt: TBD
 
-### If We Were Building developers.jup.ag
+### Ghost Mode & Whale Watching
+- Implemented real-time wallet polling using `getSignaturesForAddress`.
+- **Finding:** Polling is more reliable for demos than websockets, but parsing `ParsedTransactionWithMeta` for Jupiter swaps is complex due to the multi-level route plans.
+- **Finding:** Used token balance changes (`preTokenBalances` vs `postTokenBalances`) as a proxy for swap detection, which proved significantly more robust than instruction parsing.
+- **Observation:** Real-time pricing via Jupiter during signal enrichment adds latency. Caching metadata and prices is critical for the "Ghost" feel.
 - TBD
 
 ### What We Wish Existed
