@@ -17,33 +17,21 @@ export function Navbar() {
     setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect
   }, []);
 
-  // Handle stuck connecting state
-  useEffect(() => {
-    if (connecting) {
-      const timer = setTimeout(() => {
-        if (connecting && !connected) {
-          console.warn('Wallet connection taking too long, suggesting reset.');
-        }
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [connecting, connected]);
-
   const navLinks = [
     { name: 'Dashboard', href: '/' },
     { name: 'Vault', href: '/vault' },
   ];
 
   return (
-    <nav className="border-b border-white/[0.08] bg-[#0A0A0F]/80 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="border-b border-white/[0.05] bg-[#0A0A0F]/80 backdrop-blur-xl sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-12">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-5 rounded-full border-2 border-[#D4A843] flex items-center p-0.5 overflow-hidden">
-                <div className="w-4 h-full bg-[#D4A843] rounded-full animate-ghost-pulse" />
+              <div className="w-8 h-4 rounded-full border-2 border-white/20 flex items-center p-0.5 overflow-hidden group-hover:border-[#D4A843] transition-colors">
+                <div className="w-3 h-full bg-[#D4A843] rounded-full" />
               </div>
-              <span className="text-2xl font-black tracking-tight lowercase">capsule</span>
+              <span className="text-lg font-bold tracking-tight lowercase">capsule</span>
             </Link>
             
             <div className="hidden md:flex items-center gap-2">
@@ -51,10 +39,10 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all ${
+                  className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all ${
                     pathname === link.href
-                      ? 'bg-white/10 text-white'
-                      : 'text-[#555566] hover:text-white hover:bg-white/5'
+                      ? 'text-white'
+                      : 'text-[#555566] hover:text-white'
                   }`}
                 >
                   {link.name}
@@ -63,27 +51,27 @@ export function Navbar() {
             </div>
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-8">
             {isActive && (
-              <div className="hidden lg:flex items-center gap-3 px-4 py-2 bg-[#D4A843]/10 border border-[#D4A843]/20 rounded-full">
-                <div className="w-2 h-2 bg-[#D4A843] rounded-full animate-pulse" />
-                <span className="text-[10px] font-black text-[#D4A843] uppercase tracking-widest">
+              <div className="hidden lg:flex items-center gap-3">
+                <span className="text-[10px] font-bold text-[#D4A843] uppercase tracking-[0.2em]">
                   Active Session: ${budget}
                 </span>
+                <div className="w-1 h-1 bg-green-500 rounded-full" />
               </div>
             )}
             
             {mounted && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4">
                 {connecting && (
                   <button 
                     onClick={() => disconnect()}
-                    className="text-[10px] font-black uppercase tracking-widest text-[#555566] hover:text-white transition-colors"
+                    className="text-[10px] font-bold uppercase tracking-widest text-[#555566] hover:text-white transition-colors"
                   >
                     Reset
                   </button>
                 )}
-                <WalletMultiButton className="!bg-[#D4A843] !text-black !font-black !rounded-full !px-8 !h-11 !text-[10px] !uppercase !tracking-widest hover:!bg-[#C49833] !transition-all !border-none !shadow-lg shadow-[#D4A843]/10" />
+                <WalletMultiButton className="!bg-white !text-black !font-bold !rounded-full !px-8 !h-10 !text-[10px] !uppercase !tracking-[0.2em] hover:!bg-[#D4A843] !transition-all !border-none" />
               </div>
             )}
           </div>
