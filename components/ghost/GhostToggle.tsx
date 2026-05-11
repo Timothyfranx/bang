@@ -10,33 +10,37 @@ interface GhostToggleProps {
 
 export const GhostToggle: React.FC<GhostToggleProps> = ({ isActive, onToggle, disabled }) => {
   return (
-    <div className="flex items-center gap-4">
-      <span className="text-sm font-medium text-[#8B8B9B]">Ghost Mode</span>
+    <div className="flex items-center gap-6 p-4 bg-black/40 border border-white/5 rounded-2xl shadow-inner">
+      <div className="flex flex-col">
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#555566] mb-1">Mirror Logic</span>
+        <span className={`text-xs font-mono font-bold transition-colors ${isActive ? 'text-[#D4A843]' : 'text-[#8B8B9B]'}`}>
+          {isActive ? 'ACTIVE_SHADOW' : 'MONITOR_ONLY'}
+        </span>
+      </div>
+      
       <button
         onClick={onToggle}
         disabled={disabled}
         className={`
-          relative w-16 h-8 rounded-full transition-all duration-300
-          ${disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
+          relative w-20 h-10 rounded-lg transition-all duration-500
+          ${disabled ? 'opacity-20 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
           ${isActive
-            ? 'bg-[#D4A843] shadow-[0_0_16px_rgba(212,168,67,0.4)]'
-            : 'bg-[#1C1C28] border border-white/[0.07]'
+            ? 'bg-[#1A1A1A] border-2 border-[#D4A843] shadow-[0_0_20px_rgba(212,168,67,0.2)]'
+            : 'bg-[#1A1A1A] border-2 border-[#333333]'
           }
         `}
       >
         <div className={`
-          absolute top-1 w-6 h-6 rounded-full transition-all duration-300
+          absolute top-1 w-8 h-6 rounded transition-all duration-500 flex items-center justify-center
           ${isActive
-            ? 'left-9 bg-black'
-            : 'left-1 bg-[#555566]'
+            ? 'left-10 bg-[#D4A843] shadow-[0_0_15px_rgba(212,168,67,0.5)]'
+            : 'left-1 bg-[#333333]'
           }
-        `}/>
+        `}>
+          <div className={`w-0.5 h-3 bg-black/20 mx-0.5 rounded-full`} />
+          <div className={`w-0.5 h-3 bg-black/20 mx-0.5 rounded-full`} />
+        </div>
       </button>
-      <span className={`text-sm font-mono font-medium transition-colors
-        ${isActive ? 'text-[#D4A843]' : 'text-[#555566]'}
-      `}>
-        {isActive ? 'ON' : 'OFF'}
-      </span>
     </div>
   );
 };

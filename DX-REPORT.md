@@ -25,11 +25,12 @@
 - **Finding:** The API response uses snake_case (`organic_score`) for the score but camelCase for other metadata like `logoURI`. Developers need to be careful with TypeScript mapping.
 - **Finding:** The `/search` endpoint allows for comma-separated mints, making bulk scanning of the session wallet efficient.
 
-### Ghost Mode (Social Trading)
-- Implemented real-time whale monitoring and shadow signing.
-- **Finding:** Polling `getSignaturesForAddress` is effective for a hackathon demo, but production would require reliable websockets (e.g., Helius) to achieve true "same-block" mirroring.
-- **Finding:** Enriching transaction data with Jupiter's `organic_score` and `priceImpact` (via Quote API) creates a unique "de-risk" UX that standard social trading bots lack.
-- **Observation:** Shadow signing (using the session key stored in the browser) is the massive friction-reducer that makes the product viable compared to standard browser-wallet setups.
+### Trigger API
+- Integrated Jupiter Trigger API for Vault-direct limit orders.
+- **Finding:** Authentication for Trigger API requires a three-step handshake: Request Challenge -> Sign Message -> Verify Signature -> Receive JWT.
+- **Observation:** This flow is highly secure but adds several round-trips for the client. Standardizing this with a helper library or unified wallet-auth endpoint would be helpful.
+- **Finding:** The `triggerPrice` and `triggerCondition` fields are intuitive, but the `inAmount` must be in native units (lamports for SOL).
+- **Finding:** API domain consistency: `quote-api.jup.ag` was failing with ENOTFOUND; switching all calls to the unified `api.jup.ag` domain resolved this.
 
 ### AI Stack
 - Agent Skills: TBD

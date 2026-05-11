@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "@solana/wallet-adapter-react-ui/styles.css";
 import { SolanaWalletProvider } from "@/components/providers/WalletProvider";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { Navbar } from "@/components/layout/Navbar";
@@ -9,8 +10,8 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "capsule | Session-Based Risk Management",
-  description: "Secure your Solana interactions with session-based wallet isolation.",
+  title: "Copy-Ghost | Zero-Latency Shadow Trading",
+  description: "Follow the smart money with the speed of a bot and the security of a vault. Powered by Jupiter.",
 };
 
 export default function RootLayout({
