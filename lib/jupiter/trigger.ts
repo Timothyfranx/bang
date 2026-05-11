@@ -13,7 +13,7 @@ export async function getTriggerChallenge(walletPublicKey: string): Promise<stri
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': (process.env.JUPITER_API_KEY || '').trim()
+      'x-api-key': (process.env.JUPITER_API_KEY || '').replace(/[^\x20-\x7E]/g, '')
     },
     body: JSON.stringify({
       walletPubkey: walletPublicKey,
@@ -38,7 +38,7 @@ export async function verifyTriggerSignature(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': (process.env.JUPITER_API_KEY || '').trim()
+      'x-api-key': (process.env.JUPITER_API_KEY || '').replace(/[^\x20-\x7E]/g, '')
     },
     body: JSON.stringify({
       type: 'solana',
@@ -68,7 +68,7 @@ export async function createLimitOrder(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': (process.env.JUPITER_API_KEY || '').trim(),
+      'x-api-key': (process.env.JUPITER_API_KEY || '').replace(/[^\x20-\x7E]/g, ''),
       'Authorization': `Bearer ${accessToken}`
     },
     body: JSON.stringify({

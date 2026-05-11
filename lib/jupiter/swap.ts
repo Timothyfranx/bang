@@ -51,7 +51,7 @@ export async function getQuote(
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'x-api-key': (process.env.JUPITER_API_KEY || '').trim()
+      'x-api-key': (process.env.JUPITER_API_KEY || '').replace(/[^\x20-\x7E]/g, '')
     }
   });
 
@@ -73,7 +73,7 @@ export async function getSwapTransaction(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': (process.env.JUPITER_API_KEY || '').trim()
+      'x-api-key': (process.env.JUPITER_API_KEY || '').replace(/[^\x20-\x7E]/g, '')
     },
     body: JSON.stringify({
       quoteResponse,
