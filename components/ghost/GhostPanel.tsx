@@ -19,7 +19,8 @@ export const GhostPanel: React.FC = () => {
     removeWhale,
     signals, 
     toggleMonitoring,
-    isSessionActive 
+    isSessionActive,
+    injectTestSignal
   } = useGhost();
   
   const { sessionKeypair } = useSession();
@@ -191,7 +192,13 @@ export const GhostPanel: React.FC = () => {
           <h3 className="text-xs font-semibold uppercase tracking-wider text-[#8B8B9B]">
             Signal Feed {isMonitoring && <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse ml-2" />}
           </h3>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={injectTestSignal}
+              className="text-[10px] font-bold text-[#D4A843] hover:text-white uppercase tracking-widest bg-[#D4A843]/10 px-3 py-1 rounded-full transition-colors"
+            >
+              Inject Test Signal
+            </button>
             <span className="text-[10px] text-[#555566]">
               Consensus Logic: 2/3 Whales
             </span>

@@ -29,7 +29,7 @@ export default function Home() {
                 </span>
               </div>
               
-              <h1 className="text-6xl md:text-9xl font-bold mb-10 tracking-tight leading-[0.85] max-w-5xl mx-auto italic uppercase">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 tracking-tight leading-[0.9] max-w-5xl mx-auto italic uppercase">
                 Shadow the.
                 <br />
                 <span className="text-[#D4A843]">Smart Money.</span>

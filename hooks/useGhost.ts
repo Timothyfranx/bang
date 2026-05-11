@@ -138,6 +138,23 @@ export function useGhost() {
     if (whaleAddresses.length === 1) setIsMonitoring(false);
   };
 
+  const injectTestSignal = useCallback(() => {
+    const testTrade: WhaleTrade = {
+      signature: `test_${Math.random().toString(36).slice(2)}`,
+      timestamp: Date.now(),
+      walletAddress: 'GvT9iWv6FpndpXpQjS4f6X2xX7sX4f6X2xX7sX4f6X2', // Fake Whale
+      inputMint: 'So11111111111111111111111111111111111111112', // SOL
+      outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC
+      inputAmount: 1,
+      outputAmount: 85.5,
+      inputSymbol: 'SOL',
+      outputSymbol: 'USDC'
+    };
+    
+    processTrade(testTrade);
+    toast('Injecting test signal into Cockpit...', { icon: '💉' });
+  }, [processTrade]);
+
   return {
     isMonitoring,
     whaleAddresses,
@@ -145,6 +162,7 @@ export function useGhost() {
     removeWhale,
     signals,
     toggleMonitoring,
-    isSessionActive
+    isSessionActive,
+    injectTestSignal
   };
 }

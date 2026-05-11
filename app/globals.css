@@ -1,21 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --font-display: "Inter", -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  --color-bg-base: #09090E;
+  --color-bg-surface: #0F0F18;
+  --color-accent: #D4A843;
+}
 
 :root {
-  --bg-base:        #09090E;
-  --bg-surface:     #0F0F18;
-  --accent:         #D4A843;
-  --font-display:  'DM Sans', -apple-system, sans-serif;
-  --font-mono:     'JetBrains Mono', 'Fira Code', monospace;
+  --bg-base: #09090E;
+  --bg-surface: #0F0F18;
+  --accent: #D4A843;
 }
 
 body {
   background-color: var(--bg-base);
-  color: #F2F2F5;
+  color: #f2f2f5;
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
 }
@@ -24,18 +26,33 @@ body {
 .wallet-adapter-button {
   font-family: var(--font-display) !important;
   border-radius: 9999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
 }
 
 .wallet-adapter-button-trigger {
-  background-color: var(--accent) !important;
-  color: black !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  transition: all 0.3s ease !important;
+}
+
+.wallet-adapter-button-trigger:hover {
+  background-color: #d4a843 !important;
 }
 
 /* Ghost Mode Pulse */
 @keyframes ghostPulse {
-  0%   { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0.4); }
-  70%  { box-shadow: 0 0 0 10px rgba(212, 168, 67, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 168, 67, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(212, 168, 67, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 168, 67, 0);
+  }
 }
 
 .animate-ghost-pulse {
@@ -43,8 +60,14 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
