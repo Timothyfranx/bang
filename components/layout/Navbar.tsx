@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 export function Navbar() {
   const pathname = usePathname();
   const { isActive, budget } = useSession();
-  const { connecting, connected, disconnect } = useWallet();
+  const { connecting, disconnect } = useWallet();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
