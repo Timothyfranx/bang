@@ -215,7 +215,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
             const swapTransactionBuf = Buffer.from(data.swapResponse.swapTransaction, 'base64');
             const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
             
-            // Sign with session keypair - this is the "magic" of Capsule
+            // Sign with session keypair - this is the "magic" of Copy-Ghost
             // No user approval needed for the session wallet!
             transaction.sign([sessionKeypair]);
             

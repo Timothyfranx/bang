@@ -4,7 +4,7 @@ const JUPITER_PRICE_API_V3 = 'https://api.jup.ag/price/v3';
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
 
 export async function fetchSolPrice(): Promise<PriceData> {
-  const apiKey = process.env.JUPITER_API_KEY;
+  const apiKey = process.env.JUPITER_API_KEY?.trim();
   if (!apiKey) {
     throw new Error('JUPITER_API_KEY is not defined in environment variables');
   }

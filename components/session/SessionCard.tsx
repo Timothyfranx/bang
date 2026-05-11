@@ -109,9 +109,10 @@ export function SessionCard() {
         </div>
         
         <p className="text-[10px] text-center text-[#A1A1AA] px-4 leading-relaxed opacity-60 italic">
-          Capsule protects your vault by only recovering tokens with an organic score ≥ 70. 
+          Copy-Ghost protects your vault by only recovering tokens with an organic score ≥ 70.
           Suspicious assets remain in the isolation wallet and are eventually cleared.
         </p>
+
       </div>
     </div>
   );
