@@ -23,7 +23,7 @@ export async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'x-api-key': (process.env.JUPITER_API_KEY || '').replace(/[^\x20-\x7E]/g, '')
+      'x-api-key': (process.env.JUPITER_API_KEY || '').split('').filter(c => c.charCodeAt(0) > 31 && c.charCodeAt(0) < 127).join('')
     }
   });
 

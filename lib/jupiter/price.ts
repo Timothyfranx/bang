@@ -4,7 +4,9 @@ const JUPITER_PRICE_API_V3 = 'https://api.jup.ag/price/v3';
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
 
 export async function fetchSolPrice(): Promise<PriceData> {
-  const apiKey = process.env.JUPITER_API_KEY?.replace(/[^\x20-\x7E]/g, '');
+  const rawKey = process.env.JUPITER_API_KEY || '';
+  const apiKey = rawKey.split('').filter(c => c.charCodeAt(0) > 31 && c.charCodeAt(0) < 127).join('');
+  
   if (!apiKey) {
     throw new Error('JUPITER_API_KEY is not defined in environment variables');
   }
@@ -62,7 +64,7 @@ export async function fetchSolPrice(): Promise<PriceData> {
       price: price
     };
   } catch (err) {
-    console.error('[Jupiter Price API]', err);
+    console.error('[Jupiter Price API v2.1]', err);
     throw err;
   }
 }
