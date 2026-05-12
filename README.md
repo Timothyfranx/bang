@@ -1,6 +1,6 @@
 # 👻 Copy-Ghost
 
-### Zero-Latency Shadow Trading on Solana — Powered by Jupiter
+### Zero-Latency Shadow Trading on Solana - Powered by Jupiter
 
 **Copy-Ghost** is a latency-optimized, session-based "shadow trading" layer that allows users to shadow high-performance whale wallets in real-time. Built for the Jupiter Hackathon, it combines the security of vault-isolated ephemeral wallets with the speed of a specialized bot.
 
@@ -18,7 +18,27 @@ Social trading on Solana is often slow and risky. You either give your private k
 
 ---
 
-## 🛠️ Technical Stack
+## ✅ Current Status & Verification
+
+### What's actually working end-to-end right now?
+- **Wallet Connection:** Full support for Solana Wallet Adapter (Phantom, etc.).
+- **Session Lifecycle:** Successful "Vault -> Ghost" funding and "Ghost -> Vault" asset sweeping (Hardened for Devnet with SOL transfer fallbacks).
+- **Whale Monitoring:** Real-time polling of target wallets and automated signal parsing.
+- **Signal Injection:** A "Test Signal" button in the Cockpit allows you to verify the mirror flow on Devnet without needing live whales.
+- **Mirror Logic:** End-to-end flow from signal detection to Jupiter Quote generation.
+- **Anti-Rug Shield:** Logic is implemented to block mirror trades for tokens with an `organic_score` < 70.
+
+### What's the deployed URL?
+- **URL:** [Insert your Vercel URL here]
+- **Environment:** Hardened for **Devnet** testing.
+
+### Which Jupiter APIs are confirmed working?
+- **Price API (V3):** Confirmed working for real-time SOL pricing (Hardened against non-ASCII character errors).
+- **Swap API (V6):** Confirmed for transaction generation, funding, and sweeping.
+- **Tokens API (V2):** Confirmed for metadata fetching and `organic_score` safety checks.
+- **Trigger API (V2):** Confirmed for the Vault Limit Order authentication handshake (Challenge/Verify).
+
+---
 
 - **Execution Engine:** Jupiter Swap V6 (Quote & Execute APIs)
 - **Safety Layer:** Jupiter Tokens API (Organic Score Verification)

@@ -1,4 +1,4 @@
-# 🎨 DESIGN.md — Capsule Design System
+# 🎨 DESIGN.md - Capsule Design System
 ## Brand, UI, and UX Reference for AI Agents and Human Collaborators
 
 > **Read this before writing a single line of CSS or JSX.**
@@ -11,33 +11,33 @@
 
 Capsule is a security tool for people who trade on Solana. The design must communicate three things instantly:
 
-1. **Trust** — this protects your money. It must feel solid, serious, and reliable.
-2. **Speed** — Ghost Mode is about fast execution. The UI must feel snappy, real-time, alive.
-3. **Simplicity** — non-crypto users must understand what's happening at a glance.
+1. **Trust** - this protects your money. It must feel solid, serious, and reliable.
+2. **Speed** - Ghost Mode is about fast execution. The UI must feel snappy, real-time, alive.
+3. **Simplicity** - non-crypto users must understand what's happening at a glance.
 
 ### The One Design Rule
 
 > **Every element earns its place or it's removed.**
 
-No decorative elements for the sake of it. No gradients because they look cool. Every visual choice has a function. Capsule looks expensive because it's precise — not because it's flashy.
+No decorative elements for the sake of it. No gradients because they look cool. Every visual choice has a function. Capsule looks expensive because it's precise - not because it's flashy.
 
 ### Aesthetic Direction
 
-**Refined Dark Fintech** — think Bloomberg Terminal meets Linear.app.
+**Refined Dark Fintech** - think Bloomberg Terminal meets Linear.app.
 
 - Dark, near-black backgrounds with surgical precision
-- One warm accent color (amber/gold) — used sparingly, never everywhere
+- One warm accent color (amber/gold) - used sparingly, never everywhere
 - Monospace font for addresses, numbers, and data
 - Clean sans-serif for everything else
-- Subtle borders — not shadows
+- Subtle borders - not shadows
 - Data-dense but never cluttered
 
 **What to avoid:**
-- Purple gradients — every generic crypto app uses these
-- Neon green "hacker" aesthetics — cliché
-- Glass morphism — overdone
-- Gradient text on logos — cheap
-- Excessive animations — this is a security tool, not a game
+- Purple gradients - every generic crypto app uses these
+- Neon green "hacker" aesthetics - cliché
+- Glass morphism - overdone
+- Gradient text on logos - cheap
+- Excessive animations - this is a security tool, not a game
 - Comic Sans, heavy display fonts, or anything playful
 
 ---
@@ -49,7 +49,7 @@ No decorative elements for the sake of it. No gradients because they look cool. 
 ```css
 :root {
   /* Backgrounds */
-  --bg-base:        #09090E;   /* Page background — deepest dark */
+  --bg-base:        #09090E;   /* Page background - deepest dark */
   --bg-surface:     #0F0F18;   /* Card backgrounds */
   --bg-elevated:    #16161F;   /* Modals, dropdowns, tooltips */
   --bg-subtle:      #1C1C28;   /* Hover states, input backgrounds */
@@ -59,8 +59,8 @@ No decorative elements for the sake of it. No gradients because they look cool. 
   --border-strong:  rgba(255, 255, 255, 0.12);  /* Focused inputs, active states */
   --border-accent:  rgba(212, 168, 67, 0.30);   /* Amber-tinted borders */
 
-  /* Accent — Amber Gold */
-  --accent:         #D4A843;   /* Primary accent — use sparingly */
+  /* Accent - Amber Gold */
+  --accent:         #D4A843;   /* Primary accent - use sparingly */
   --accent-dim:     #B8902E;   /* Hover state for accent */
   --accent-muted:   rgba(212, 168, 67, 0.12);  /* Accent backgrounds */
   --accent-glow:    rgba(212, 168, 67, 0.08);  /* Subtle glow effects */
@@ -69,7 +69,7 @@ No decorative elements for the sake of it. No gradients because they look cool. 
   --text-primary:   #F2F2F5;   /* Main body text */
   --text-secondary: #8B8B9B;   /* Labels, captions, metadata */
   --text-tertiary:  #555566;   /* Placeholder text, disabled */
-  --text-accent:    #D4A843;   /* Accent text — links, highlights */
+  --text-accent:    #D4A843;   /* Accent text - links, highlights */
 
   /* Semantic Colors */
   --success:        #22C55E;   /* Confirmed, swept, safe */
@@ -106,10 +106,10 @@ No decorative elements for the sake of it. No gradients because they look cool. 
 ### Font Stack
 
 ```css
-/* Display — for headlines and large numbers */
+/* Display - for headlines and large numbers */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
-/* Monospace — for addresses, hashes, numbers, code */
+/* Monospace - for addresses, hashes, numbers, code */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
@@ -136,7 +136,7 @@ body {
 .text-small   { font-size: 0.8125rem; font-weight: 400; line-height: 1.5; }
 .text-xs      { font-size: 0.75rem;   font-weight: 400; line-height: 1.4; }
 
-/* Mono — always use for these */
+/* Mono - always use for these */
 .text-address { font-family: var(--font-mono); font-size: 0.8125rem; }
 .text-hash    { font-family: var(--font-mono); font-size: 0.75rem; }
 .text-number  { font-family: var(--font-mono); font-weight: 600; }
@@ -145,12 +145,12 @@ body {
 
 ### Typography Rules
 
-- **Wallet addresses** — always monospace, always truncated (`0xBDB8...6534`), always with copy button
-- **Transaction hashes** — always monospace, always truncated, always linkable to Solscan
-- **Dollar amounts** — monospace, two decimal places, green if positive, red if negative
-- **SOL amounts** — monospace, 4 decimal places maximum
-- **Timestamps** — secondary color, relative format ("2 mins ago") with full datetime on hover
-- **Token symbols** — uppercase, bold, primary color (`SOL`, `USDC`, `WIF`)
+- **Wallet addresses** - always monospace, always truncated (`0xBDB8...6534`), always with copy button
+- **Transaction hashes** - always monospace, always truncated, always linkable to Solscan
+- **Dollar amounts** - monospace, two decimal places, green if positive, red if negative
+- **SOL amounts** - monospace, 4 decimal places maximum
+- **Timestamps** - secondary color, relative format ("2 mins ago") with full datetime on hover
+- **Token symbols** - uppercase, bold, primary color (`SOL`, `USDC`, `WIF`)
 
 ---
 
@@ -166,14 +166,14 @@ The Capsule logo is a **capsule shape** (a rectangle with fully rounded ends) wi
  ╰──────────╯
 ```
 
-The capsule shape represents containment — your assets are contained, isolated, protected. It also suggests medicine/pharmaceuticals — you take the right dose, not everything at once.
+The capsule shape represents containment - your assets are contained, isolated, protected. It also suggests medicine/pharmaceuticals - you take the right dose, not everything at once.
 
 ### Logo Variants
 
 **Primary (light text on dark):**
 ```tsx
 <div className="flex items-center gap-2">
-  {/* Capsule icon — SVG */}
+  {/* Capsule icon - SVG */}
   <svg width="28" height="16" viewBox="0 0 28 16">
     <rect x="0" y="0" width="28" height="16" rx="8"
           fill="none" stroke="#D4A843" strokeWidth="1.5"/>
@@ -205,10 +205,10 @@ The capsule shape represents containment — your assets are contained, isolated
 
 ### Brand Voice
 
-- **Precise** — "Your vault is protected" not "Your funds are super safe!!!"
-- **Technical but accessible** — "Session wallet" not "burner wallet" or "hot wallet 2.0"
-- **Direct** — "Session ended. 0.58 SOL returned." not "Great job! Your session is complete!"
-- **Honest** — "Session wallet can still be drained. Budget limits your exposure." — say it plainly
+- **Precise** - "Your vault is protected" not "Your funds are super safe!!!"
+- **Technical but accessible** - "Session wallet" not "burner wallet" or "hot wallet 2.0"
+- **Direct** - "Session ended. 0.58 SOL returned." not "Great job! Your session is complete!"
+- **Honest** - "Session wallet can still be drained. Budget limits your exposure." - say it plainly
 
 ---
 
@@ -246,7 +246,7 @@ The capsule shape represents containment — your assets are contained, isolated
 ### Buttons
 
 ```tsx
-/* Primary — amber, used for main actions only */
+/* Primary - amber, used for main actions only */
 <button className="
   bg-[#D4A843] text-black
   font-semibold text-sm
@@ -257,7 +257,7 @@ The capsule shape represents containment — your assets are contained, isolated
   transition-colors duration-150
 ">
 
-/* Secondary — transparent with amber border */
+/* Secondary - transparent with amber border */
 <button className="
   border border-[#D4A843]/40 text-[#D4A843]
   font-medium text-sm
@@ -267,7 +267,7 @@ The capsule shape represents containment — your assets are contained, isolated
   transition-colors duration-150
 ">
 
-/* Ghost — no border, subtle */
+/* Ghost - no border, subtle */
 <button className="
   text-[#8B8B9B]
   font-medium text-sm
@@ -277,7 +277,7 @@ The capsule shape represents containment — your assets are contained, isolated
   transition-colors duration-150
 ">
 
-/* Danger — for sweep, disconnect, high-risk actions */
+/* Danger - for sweep, disconnect, high-risk actions */
 <button className="
   border border-red-500/40 text-red-400
   font-medium text-sm
@@ -391,7 +391,7 @@ placeholder="Enter wallet address..."
 This is the most important UI element. It must feel physical and satisfying.
 
 ```tsx
-/* Ghost Mode Toggle — the centerpiece of Ghost Panel */
+/* Ghost Mode Toggle - the centerpiece of Ghost Panel */
 <button
   onClick={toggleGhost}
   className={`
@@ -428,14 +428,14 @@ This is the most important UI element. It must feel physical and satisfying.
 ### Loading States
 
 ```tsx
-/* Spinner — for async actions */
+/* Spinner - for async actions */
 <div className="
   w-4 h-4 rounded-full
   border-2 border-white/20 border-t-amber-400
   animate-spin
 "/>
 
-/* Skeleton — for loading content */
+/* Skeleton - for loading content */
 <div className="
   h-4 w-32 rounded
   bg-white/[0.05]
@@ -477,7 +477,7 @@ toast.error('Swap failed: insufficient balance', {
   }
 });
 
-// With Solscan link — custom component
+// With Solscan link - custom component
 toast.custom(() => (
   <div className="bg-[#0F0F18] border border-green-500/30 rounded-xl px-4 py-3 flex items-center gap-3">
     <span className="text-green-400">✓</span>
@@ -516,12 +516,12 @@ toast.custom(() => (
 ```tsx
 /* Two-column dashboard */
 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-  {/* Left column — 2/3 width */}
+  {/* Left column - 2/3 width */}
   <div className="lg:col-span-2 space-y-6">
     <SessionCard />
     <GhostPanel />
   </div>
-  {/* Right column — 1/3 width */}
+  {/* Right column - 1/3 width */}
   <div className="space-y-6">
     <VaultBalance />
     <QuickActions />
@@ -542,12 +542,12 @@ toast.custom(() => (
     {/* Logo left */}
     <Logo />
 
-    {/* Center — testnet banner */}
+    {/* Center - testnet banner */}
     <span className="text-xs text-amber-400/70 font-mono hidden sm:block">
       Devnet
     </span>
 
-    {/* Right — wallet */}
+    {/* Right - wallet */}
     <div className="flex items-center gap-3">
       {isConnected ? (
         <>
@@ -634,7 +634,7 @@ toast.custom(() => (
   │ [Whale Address Input]           │  │ [Set Limit Order] │
   │ [+ Add whale] (up to 3)         │  │                   │
   │                                 │  │ [View Vault ›]    │
-  │ Ghost Mode  [  OFF ——●  ]       │  │                   │
+  │ Ghost Mode  [  OFF --●  ]       │  │                   │
   │                                 │  └──────────────────┘
   │ ── Signal Feed ──               │
   │                                 │
@@ -694,7 +694,7 @@ Desktop (> 1024px):
 **Use animation purposefully. Not everywhere.**
 
 ```css
-/* Page load — staggered card reveal */
+/* Page load - staggered card reveal */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -713,7 +713,7 @@ Desktop (> 1024px):
 
 .new-signal { animation: signalPulse 0.6s ease; }
 
-/* Session timer — urgent pulse when < 5 mins */
+/* Session timer - urgent pulse when < 5 mins */
 @keyframes urgentPulse {
   0%, 100% { color: #EF4444; }
   50%       { color: #F87171; }
@@ -726,10 +726,10 @@ Desktop (> 1024px):
 - Page transitions: fade + translate Y 12px, 300ms ease
 - New Ghost signals: single amber pulse on card border
 - Toggle: 300ms transition on background and thumb position
-- Buttons: 150ms color transition only — no scale transforms
+- Buttons: 150ms color transition only - no scale transforms
 - Session timer: pulse only when under 5 minutes remaining
 - Never animate layout (no width/height transitions)
-- Respect `prefers-reduced-motion` — wrap all animations:
+- Respect `prefers-reduced-motion` - wrap all animations:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -761,4 +761,4 @@ Never do any of the following:
 
 ---
 
-*This design system is the visual contract for Capsule. Every component follows these rules. Propose changes via a `style/` branch — same as code.*
+*This design system is the visual contract for Capsule. Every component follows these rules. Propose changes via a `style/` branch - same as code.*

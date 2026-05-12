@@ -23,7 +23,7 @@ export async function assessTradeRisk(trade: WhaleTrade): Promise<RiskAssessment
     const organicScore = tokenMeta?.organic_score ?? 0;
     
     if (organicScore < 70) {
-      reasons.push(`Low organic score: ${organicScore}/100 — possible shill`);
+      reasons.push(`Low organic score: ${organicScore}/100 - possible shill`);
     }
     
     // 3. Liquidity Depth (Optional, if available in quote)

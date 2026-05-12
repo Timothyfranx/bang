@@ -1,4 +1,4 @@
-# SUMMARY.md — Capsule Project Log
+# SUMMARY.md - Capsule Project Log
 
 ## Project Status Snapshot
 - **Current Phase:** 👻 Phase 6: Ghost Mode Core
@@ -16,12 +16,12 @@
 | `feature/token-safety-check` | ✅ Merged | Refining Jupiter Tokens API integration and safety UX |
 | `feature/ghost-mode-core` | 🔄 In Progress | Implementing whale watcher, risk assessment, and mirror trade logic |
 
-## Commit Log — `main`
+## Commit Log - `main`
 - `chore(init): bootstrap Next.js project with TypeScript and Tailwind`
 - `docs: add GEMINI, SUMMARY, DX-REPORT, README scaffolds`
 - `chore(structure): scaffold project directory structure`
 
-## Commit Log — `fix/session-funding-json-error`
+## Commit Log - `fix/session-funding-json-error`
 - `fix(jupiter): switch to x-api-key header for V6 APIs`
 - `fix(json): harden all fetch calls to handle empty or malformed JSON responses`
 - `fix(session): resolve "Unexpected end of JSON input" by preventing redundant json() calls`

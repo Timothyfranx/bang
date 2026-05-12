@@ -1,5 +1,5 @@
-# 📋 PLAN.md — Capsule + Ghost Mode
-## Agent Build Plan — Jupiter Hackathon
+# 📋 PLAN.md - Capsule + Ghost Mode
+## Agent Build Plan - Jupiter Hackathon
 
 > **Read this file completely before taking any action.**
 > This is your task bible for the entire 6-day build.
@@ -10,23 +10,23 @@
 ## 🧠 What You Are Building
 
 **Capsule** is a session-based wallet isolation layer for Solana.
-**Ghost Mode** is Capsule's killer feature — a whale-following engine with built-in de-risk filters.
+**Ghost Mode** is Capsule's killer feature - a whale-following engine with built-in de-risk filters.
 
 ### The One-Paragraph Summary
 
-> "Capsule lets you interact with risky dApps using a temporary Session Wallet funded with a fixed budget from your Vault Wallet. Ghost Mode watches a whale wallet on-chain — when they trade, Capsule shows you the trade enriched with Jupiter's price impact, liquidity depth, and token safety score. One click mirrors the trade using your session budget. The session keypair signs instantly. Your vault never moves."
+> "Capsule lets you interact with risky dApps using a temporary Session Wallet funded with a fixed budget from your Vault Wallet. Ghost Mode watches a whale wallet on-chain - when they trade, Capsule shows you the trade enriched with Jupiter's price impact, liquidity depth, and token safety score. One click mirrors the trade using your session budget. The session keypair signs instantly. Your vault never moves."
 
 ### What Makes It Win
 
-- **Security narrative** — session isolation is genuinely novel as a security primitive
-- **Ghost Mode** — whale following with de-risk filters nobody else has
-- **Four Jupiter APIs** — Swap V2, Price, Tokens, Trigger — all genuinely used
-- **DX Report** — 35% of judging, richest material comes from deep API integration
-- **Demo control** — you simulate the whale, demo never fails
+- **Security narrative** - session isolation is genuinely novel as a security primitive
+- **Ghost Mode** - whale following with de-risk filters nobody else has
+- **Four Jupiter APIs** - Swap V2, Price, Tokens, Trigger - all genuinely used
+- **DX Report** - 35% of judging, richest material comes from deep API integration
+- **Demo control** - you simulate the whale, demo never fails
 
 ---
 
-## 🗂️ File Structure — Build Exactly This
+## 🗂️ File Structure - Build Exactly This
 
 ```
 capsule/
@@ -116,7 +116,7 @@ capsule/
 
 ---
 
-### Feature 1 — Session Lifecycle
+### Feature 1 - Session Lifecycle
 
 **What it does:** Funds a temporary session wallet from vault, tracks budget and timer, sweeps assets back at end.
 
@@ -131,7 +131,7 @@ export function generateSessionKeypair(): Keypair {
 }
 
 export function storeSessionKeypair(keypair: Keypair, vaultPubkey: string): void {
-  // XOR encrypt with vault pubkey as salt — simple, not production-grade, honest about it
+  // XOR encrypt with vault pubkey as salt - simple, not production-grade, honest about it
   const encrypted = simpleEncrypt(keypair.secretKey, vaultPubkey);
   sessionStorage.setItem('capsule_session_key', encrypted);
   sessionStorage.setItem('capsule_session_pubkey', keypair.publicKey.toBase58());
@@ -171,7 +171,7 @@ export interface Session {
 }
 ```
 
-**Session flow — step by step:**
+**Session flow - step by step:**
 
 ```
 Step 1: User inputs budget ($50) and activity ("Ghost Mode")
@@ -186,11 +186,11 @@ Step 7: Ghost Mode activates automatically if activity = 'ghost'
 
 ---
 
-### Feature 2 — Ghost Mode (The Killer Feature)
+### Feature 2 - Ghost Mode (The Killer Feature)
 
 **What it does:** Watches a whale wallet. When they trade, enriches the signal with Jupiter data and de-risk filters. User decides to mirror or skip.
 
-**Important architecture decision — NO websockets for v1:**
+**Important architecture decision - NO websockets for v1:**
 
 Websockets to watch Solana wallets require Helius/Alchemy paid plans and are unreliable in demos. Use **polling** instead:
 
@@ -227,7 +227,7 @@ export async function pollWalletTransactions(
 
 Poll every **5 seconds** using `setInterval` in `useGhost.ts`. This is reliable and demo-safe.
 
-**The de-risk filter — run this on EVERY whale trade before showing to user:**
+**The de-risk filter - run this on EVERY whale trade before showing to user:**
 
 ```typescript
 // lib/utils/risk.ts
@@ -256,14 +256,14 @@ export async function assessTradeRisk(trade: WhaleTrade): Promise<RiskAssessment
   const organicScore = tokenMeta?.organicScore ?? 0;
   
   if (organicScore < 50) {
-    reasons.push(`Low organic score: ${organicScore}/100 — possible shill`);
+    reasons.push(`Low organic score: ${organicScore}/100 - possible shill`);
   }
   
   // Check 3: Liquidity depth
   const liquidityUSD = quote.routePlan?.[0]?.swapInfo?.marketInfos?.[0]?.liquidityUsd ?? 0;
   
   if (liquidityUSD < 10000) {
-    reasons.push(`Low liquidity: $${liquidityUSD.toLocaleString()} — rug risk`);
+    reasons.push(`Low liquidity: $${liquidityUSD.toLocaleString()} - rug risk`);
   }
   
   // Determine overall risk level
@@ -330,7 +330,7 @@ async function mirrorTrade(signal: GhostSignal) {
     mirrorAmountSOL
   );
   
-  // Execute swap — session keypair signs, not Phantom
+  // Execute swap - session keypair signs, not Phantom
   const txHash = await executeJupiterSwap(freshQuote, sessionKeypair);
   
   // Update signal status
@@ -346,7 +346,7 @@ async function mirrorTrade(signal: GhostSignal) {
 
 ---
 
-### Feature 3 — Multi-Ghost (Crowdsourced Confirmation)
+### Feature 3 - Multi-Ghost (Crowdsourced Confirmation)
 
 **What it does:** User inputs 3 whale addresses. Ghost only triggers if 2 of 3 buy the same token within 5 minutes.
 
@@ -400,7 +400,7 @@ export function checkMultiGhostSignal(
 
 ---
 
-### Feature 4 — Sweep (Session End)
+### Feature 4 - Sweep (Session End)
 
 ```typescript
 // lib/solana/sweep.ts
@@ -428,7 +428,7 @@ export async function sweepSession(
     const meta = await getTokenMetadata(mint);
     
     if (!meta || meta.organicScore < 70) {
-      // Suspicious — abandon
+      // Suspicious - abandon
       abandoned.push(mint);
       continue;
     }
@@ -456,7 +456,7 @@ export async function sweepSession(
 
 ---
 
-### Feature 5 — Vault Limit Orders (Jupiter Trigger)
+### Feature 5 - Vault Limit Orders (Jupiter Trigger)
 
 ```typescript
 // lib/jupiter/trigger.ts
@@ -518,34 +518,34 @@ headers: {
 
 ### Endpoints Used
 
-#### Swap V2 — Fund and Sweep
+#### Swap V2 - Fund and Sweep
 ```
 POST /swap/v1/order      → Get swap transaction
 POST /swap/v1/execute    → Execute swap transaction
 ```
 
-#### Price API — Budget Calculation
+#### Price API - Budget Calculation
 ```
 GET /price/v2?ids={mintAddress}
 GET /price/v2?ids={mint1},{mint2},{mint3}
 ```
 Cache responses for **minimum 10 seconds**. Never call on every render.
 
-#### Tokens API — Safety Check
+#### Tokens API - Safety Check
 ```
 GET /tokens/v1/{mintAddress}
 ```
 Returns: `{ organicScore, symbol, name, logoURI, verified, ... }`
 Organic score < 70 = flag and abandon during sweep.
 
-#### Trigger API — Limit Orders
+#### Trigger API - Limit Orders
 ```
 POST /trigger/v1/createOrder
 GET  /trigger/v1/orders?user={pubkey}
 DELETE /trigger/v1/cancelOrder
 ```
 
-### Error Handling — Every API Call Must Follow This Pattern
+### Error Handling - Every API Call Must Follow This Pattern
 ```typescript
 async function callJupiterAPI<T>(url: string, options?: RequestInit): Promise<T> {
   try {
@@ -567,7 +567,7 @@ async function callJupiterAPI<T>(url: string, options?: RequestInit): Promise<T>
     
     return response.json();
   } catch (err) {
-    // Re-throw — caller handles UX
+    // Re-throw - caller handles UX
     throw err;
   }
 }
@@ -575,11 +575,11 @@ async function callJupiterAPI<T>(url: string, options?: RequestInit): Promise<T>
 
 ---
 
-## 🗓️ 6-Day Build Plan — Day by Day
+## 🗓️ 6-Day Build Plan - Day by Day
 
 ---
 
-### DAY 1 — Foundation + First API Call + Submit Draft
+### DAY 1 - Foundation + First API Call + Submit Draft
 
 **Goal:** Working environment, first Jupiter API call, draft submitted on Superteam Earn.
 
@@ -602,11 +602,11 @@ git add . && git commit -m "docs: add project documentation scaffolds"
 
 Branch: `feature/jupiter-price-api`
 - Implement `lib/jupiter/price.ts`
-- Display SOL price on landing page — real data, no mock
+- Display SOL price on landing page - real data, no mock
 - Document in DX-REPORT.md: time to first successful call, any confusion
 
 **Evening:**
-- Submit draft on Superteam Earn — title, 2 sentence description, GitHub link
+- Submit draft on Superteam Earn - title, 2 sentence description, GitHub link
 - Update SUMMARY.md snapshot
 - **DO NOT SKIP THIS. Submit today.**
 
@@ -614,17 +614,17 @@ Branch: `feature/jupiter-price-api`
 
 ---
 
-### DAY 2 — Session Wallet + Funding
+### DAY 2 - Session Wallet + Funding
 
 **Goal:** Session wallet generation, funding flow, Phantom signs once.
 
 Branch: `feature/session-wallet-generation`
-- Implement `lib/solana/wallet.ts` — generate, store, load, clear
-- Implement `components/session/StartSession.tsx` — budget input + activity selector
+- Implement `lib/solana/wallet.ts` - generate, store, load, clear
+- Implement `components/session/StartSession.tsx` - budget input + activity selector
 - Wire Price API → show SOL equivalent of USD input in real time
 
 Branch: `feature/session-funding`
-- Implement `lib/jupiter/swap.ts` — Swap V2 `/order` + `/execute`
+- Implement `lib/jupiter/swap.ts` - Swap V2 `/order` + `/execute`
 - Fund session wallet from vault on "Start Session"
 - Show funding confirmation with Solscan link
 - Document Swap V2 experience in DX-REPORT.md
@@ -633,18 +633,18 @@ Branch: `feature/session-funding`
 
 ---
 
-### DAY 3 — Ghost Mode Core
+### DAY 3 - Ghost Mode Core
 
 **Goal:** Whale watching, trade detection, risk assessment, signal card.
 
 Branch: `feature/whale-watcher`
-- Implement `lib/solana/watcher.ts` — polling every 5 seconds
+- Implement `lib/solana/watcher.ts` - polling every 5 seconds
 - Parse Jupiter swap transactions from whale wallet
 - Test with a known active wallet (find one on Birdeye)
 - Document RPC quirks in DX-REPORT.md
 
 Branch: `feature/de-risk-filter`
-- Implement `lib/utils/risk.ts` — price impact + organic score + liquidity
+- Implement `lib/utils/risk.ts` - price impact + organic score + liquidity
 - Implement `components/ghost/RiskBadge.tsx`
 - Implement `components/ghost/TradeCard.tsx` with risk data
 
@@ -657,7 +657,7 @@ Branch: `feature/ghost-mirror`
 
 ---
 
-### DAY 4 — Multi-Ghost + Ghost UI Polish
+### DAY 4 - Multi-Ghost + Ghost UI Polish
 
 **Goal:** Multi-whale confirmation logic, Ghost dashboard UI.
 
@@ -668,16 +668,16 @@ Branch: `feature/multi-ghost`
 - Show confirmation progress in UI (whale 1 ✅, whale 2 ✅, whale 3 ⏳)
 
 Branch: `feature/ghost-ui`
-- Implement `components/ghost/GhostPanel.tsx` — full Ghost dashboard
-- Implement `components/ghost/GhostToggle.tsx` — the ON/OFF switch
-- Implement `components/ghost/WhaleFeed.tsx` — live signal feed
-- Implement `components/ghost/PnLDisplay.tsx` — your entry vs whale entry
+- Implement `components/ghost/GhostPanel.tsx` - full Ghost dashboard
+- Implement `components/ghost/GhostToggle.tsx` - the ON/OFF switch
+- Implement `components/ghost/WhaleFeed.tsx` - live signal feed
+- Implement `components/ghost/PnLDisplay.tsx` - your entry vs whale entry
 
 **Done when:** Ghost panel shows multi-whale confirmation. Toggle activates/deactivates monitoring. PnL displays after mirror.
 
 ---
 
-### DAY 5 — Vault + Sweep + Limit Orders
+### DAY 5 - Vault + Sweep + Limit Orders
 
 **Goal:** Sweep logic, vault page, Jupiter Trigger limit orders.
 
@@ -701,17 +701,17 @@ Branch: `feature/tokens-metadata`
 
 ---
 
-### DAY 6 — DX Report + README + Demo + Submit
+### DAY 6 - DX Report + README + Demo + Submit
 
 **Goal:** Final submission. Everything done by midday.
 
 **Morning:**
 
 Branch: `docs/dx-report-final`
-- Complete DX-REPORT.md — every API surface documented honestly
+- Complete DX-REPORT.md - every API surface documented honestly
 - Specific error messages, confusing behaviors, missing docs
-- AI stack section — what helped, what didn't
-- "If we built developers.jup.ag" section — specific actionable changes
+- AI stack section - what helped, what didn't
+- "If we built developers.jup.ag" section - specific actionable changes
 
 Branch: `docs/readme-final`
 - Complete README.md with:
@@ -725,7 +725,7 @@ Branch: `docs/readme-final`
 **Afternoon:**
 - Record 3-4 minute demo video
 - Update Superteam Earn submission with final repo, video, DX report link
-- Final git push — confirm repo is public
+- Final git push - confirm repo is public
 
 **Done when:** Superteam Earn submission is complete with all required links.
 
@@ -734,7 +734,7 @@ Branch: `docs/readme-final`
 ## 🔐 Environment Variables
 
 ```bash
-# .env.local — never commit
+# .env.local - never commit
 NEXT_PUBLIC_JUPITER_API_KEY=your_key_here
 NEXT_PUBLIC_SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
 NEXT_PUBLIC_SOLANA_NETWORK=mainnet-beta
@@ -745,7 +745,7 @@ NEXT_PUBLIC_SOLANA_NETWORK=mainnet-beta
 ```
 
 ```bash
-# .env.example — commit this
+# .env.example - commit this
 NEXT_PUBLIC_JUPITER_API_KEY=
 NEXT_PUBLIC_SOLANA_RPC_URL=
 NEXT_PUBLIC_SOLANA_NETWORK=
@@ -753,7 +753,7 @@ NEXT_PUBLIC_SOLANA_NETWORK=
 
 ---
 
-## 🚨 Known Limitations — Be Honest About These
+## 🚨 Known Limitations - Be Honest About These
 
 Document every item below in DX-REPORT.md and README.md.
 
@@ -771,15 +771,15 @@ Document every item below in DX-REPORT.md and README.md.
 ## ✅ Pre-Submission Checklist
 
 ```
-□ All Jupiter API calls use real data — zero mock responses
-□ Session wallet generation works — keypair stored in sessionStorage
-□ Funding flow works — Phantom signs one transaction
+□ All Jupiter API calls use real data - zero mock responses
+□ Session wallet generation works - keypair stored in sessionStorage
+□ Funding flow works - Phantom signs one transaction
 □ Ghost Mode shows real enriched signals with risk assessment
-□ Mirror trade executes with session keypair — not Phantom
-□ Sweep works — safe tokens returned to vault
+□ Mirror trade executes with session keypair - not Phantom
+□ Sweep works - safe tokens returned to vault
 □ Vault page shows real balances via Tokens API
 □ Limit order placed via Trigger API
-□ DX-REPORT.md is complete — specific, honest, actionable
+□ DX-REPORT.md is complete - specific, honest, actionable
 □ README.md has setup instructions, architecture, limitations
 □ SUMMARY.md is up to date
 □ .env.example is committed, .env.local is gitignored
@@ -792,14 +792,14 @@ Document every item below in DX-REPORT.md and README.md.
 
 ---
 
-## 📝 DX-REPORT.md — What to Log Every Day
+## 📝 DX-REPORT.md - What to Log Every Day
 
 The DX Report is **35% of judging**. Write one honest entry every time something surprises you.
 
 **Template for each finding:**
 
 ```markdown
-### [API Name] — [Date]
+### [API Name] - [Date]
 
 **What I was trying to do:**
 [one sentence]
@@ -811,18 +811,18 @@ The DX Report is **35% of judging**. Write one honest entry every time something
 [time]
 
 **What the docs said:**
-[accurate / missing / wrong — link to specific page]
+[accurate / missing / wrong - link to specific page]
 
 **What I'd change:**
 [specific, actionable suggestion]
 ```
 
 **Minimum entries required:**
-- Swap V2 `/order` vs `/execute` split — why two calls? document the friction
-- Price API caching — did you hit rate limits? document it
-- Tokens API organic score — is the threshold documented? how did you find it?
-- Trigger API — any missing documentation on parameter formats?
-- AI stack — Skills, CLI, Docs MCP — what actually helped?
+- Swap V2 `/order` vs `/execute` split - why two calls? document the friction
+- Price API caching - did you hit rate limits? document it
+- Tokens API organic score - is the threshold documented? how did you find it?
+- Trigger API - any missing documentation on parameter formats?
+- AI stack - Skills, CLI, Docs MCP - what actually helped?
 
 ---
 
