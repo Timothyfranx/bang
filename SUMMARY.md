@@ -1,27 +1,28 @@
-# SUMMARY.md — Capsule Project Log
+# SUMMARY.md - Capsule Project Log
 
 ## Project Status Snapshot
-- **Current Phase:** ✅ Phase 1: Setup & Initialization (Completed)
-- **Next Milestone:** 🔐 Session Wallet Generation & Funding (Day 2)
-- **Remaining Days:** 5
+- **Current Phase:** 👻 Phase 6: Ghost Mode Core
+- **Next Milestone:** 📽️ Final Submission
+- **Remaining Days:** 1
 
 ## Branch Log
 | Branch | Status | Summary |
 |---|---|---|
 | `main` | 🛡️ Protected | Production-ready code |
-| `feature/price-api-integration` | ⏳ Pending Review | Implementing Jupiter Price API fetching |
+| `feature/price-api-integration` | ✅ Merged | Implementing Jupiter Price API fetching |
+| `feature/session-wallet-funding` | ✅ Merged | Implementing session wallet generation and Swap V2 funding |
+| `feature/session-timer-sweep` | ✅ Merged | Implementing session timer and manual sweep logic |
+| `feature/vault-limit-orders` | ✅ Merged | Implementing Jupiter Trigger API for vault limit orders |
+| `feature/token-safety-check` | ✅ Merged | Refining Jupiter Tokens API integration and safety UX |
+| `feature/ghost-mode-core` | 🔄 In Progress | Implementing whale watcher, risk assessment, and mirror trade logic |
 
-## Commit Log — `main`
+## Commit Log - `main`
 - `chore(init): bootstrap Next.js project with TypeScript and Tailwind`
 - `docs: add GEMINI, SUMMARY, DX-REPORT, README scaffolds`
 - `chore(structure): scaffold project directory structure`
 
-## Commit Log — `feature/price-api-integration`
-- `docs(summary): open branch feature/price-api-integration`
-- `feat(price): define Jupiter Price API types`
-- `feat(price): implement Jupiter Price API fetcher in lib`
-- `feat(price): add useJupiterPrice hook`
-- `feat(ui): implement Badge component`
-- `feat(page): display live SOL price on landing page`
-- `docs(dx-report): log Price API findings`
-- `fix(price): proxy Jupiter Price API through internal route to fix CORS`
+## Commit Log - `fix/session-funding-json-error`
+- `fix(jupiter): switch to x-api-key header for V6 APIs`
+- `fix(json): harden all fetch calls to handle empty or malformed JSON responses`
+- `fix(session): resolve "Unexpected end of JSON input" by preventing redundant json() calls`
+- `fix(trigger): harden auth flow and order placement JSON parsing`

@@ -1,38 +1,70 @@
-import { JupiterPriceResponse, PriceData } from '@/types/jupiter';
+import { PriceData } from '@/types/jupiter';
 
-const JUPITER_PRICE_API_V2 = 'https://api.jup.ag/price/v2';
+const JUPITER_PRICE_API_V3 = 'https://api.jup.ag/price/v3';
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
 
 export async function fetchSolPrice(): Promise<PriceData> {
+  const rawKey = process.env.JUPITER_API_KEY || '';
+  const apiKey = rawKey.split('').filter(c => c.charCodeAt(0) > 31 && c.charCodeAt(0) < 127).join('');
+  
+  if (!apiKey) {
+    throw new Error('JUPITER_API_KEY is not defined in environment variables');
+  }
+
   try {
-    const response = await fetch(`${JUPITER_PRICE_API_V2}?ids=${SOL_MINT}`, {
+    const response = await fetch(`${JUPITER_PRICE_API_V3}?ids=${SOL_MINT}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Authorization': `Bearer ${process.env.JUPITER_API_KEY}`
+        'x-api-key': apiKey
       },
       // Caching rule: 10 seconds minimum
       next: { revalidate: 10 } 
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`Jupiter Price API error ${response.status}: ${error.message || response.statusText}`);
+      let errorDetail = response.statusText;
+      try {
+        const error = await response.json();
+        errorDetail = error.message || errorDetail;
+      } catch {
+        // Fallback if response is not JSON
+      }
+      throw new Error(`Jupiter Price API error ${response.status}: ${errorDetail}`);
     }
 
-    const result: JupiterPriceResponse = await response.json();
-    const solData = result.data[SOL_MINT];
+    const text = await response.text();
+    if (!text) {
+      throw new Error('Jupiter Price API returned an empty response');
+    }
 
-    if (!solData) {
-      throw new Error('SOL price data not found in Jupiter response');
+    let result: Record<string, unknown>;
+    try {
+      result = JSON.parse(text);
+    } catch {
+      throw new Error('Failed to parse Jupiter Price API response as JSON');
+    }
+
+    const data = (result.data || result) as Record<string, { id?: string; price?: string | number; usdPrice?: string | number }>;
+    const solData = data[SOL_MINT];
+
+    const rawPrice = solData?.usdPrice ?? solData?.price;
+
+    if (!solData || rawPrice === undefined || rawPrice === null) {
+      throw new Error('SOL price data not found or invalid in Jupiter response');
+    }
+
+    const price = Number(rawPrice);
+    if (isNaN(price)) {
+      throw new Error('Jupiter Price API returned an invalid price value');
     }
 
     return {
-      id: solData.id,
-      price: parseFloat(solData.price)
+      id: solData.id || SOL_MINT,
+      price: price
     };
   } catch (err) {
-    console.error('[Jupiter Price API]', err);
+    console.error('[Jupiter Price API v2.1]', err);
     throw err;
   }
 }
